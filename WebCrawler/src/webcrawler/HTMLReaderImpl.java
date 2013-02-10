@@ -8,7 +8,7 @@ public class HTMLReaderImpl implements HTMLReader {
 	/* (non-Javadoc)
 	 * @see webcrawler.HTMLReader#readUntil(java.io.InputStream, char, char)
 	 */
-	@Override
+	//@Override
 	public boolean readUntil(InputStream in, char ch1, char ch2) throws IOException {
 		
 		int b;
@@ -24,7 +24,7 @@ public class HTMLReaderImpl implements HTMLReader {
 	/* (non-Javadoc)
 	 * @see webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)
 	 */
-	@Override
+	//@Override
 	public int skipSpace(InputStream in, char ch) throws IOException {
 		
 		int b;
@@ -40,7 +40,7 @@ public class HTMLReaderImpl implements HTMLReader {
 	/* (non-Javadoc)
 	 * @see webcrawler.HTMLReader#readString(java.io.InputStream, char, char)
 	 */
-	@Override
+	//@Override
 	public String readString(InputStream in, char ch1, char ch2) throws IOException {
 		
 		int b;
