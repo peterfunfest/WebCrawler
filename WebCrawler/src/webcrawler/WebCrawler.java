@@ -20,7 +20,7 @@ public class WebCrawler {
 	public URLList visitURL(int level, String url) throws IOException {
 
 		URLList uRLList = new URLList();
-		
+
 		URL u = new URL(url);
 
 		InputStream ins;
@@ -35,34 +35,38 @@ public class WebCrawler {
 			// least.
 
 			String token = hr.readString(ins, ' ', '>');
+			String element;
 			String attribute;
 			String attributeValue;
 
 			if (token != null) {
-				System.out.println("ELEMENT: <" + token.trim() + ">");
+				element = token.trim();
+				System.out.println("ELEMENT: <" + element + ">");
 				token = hr.readString(ins, '=', '>');
 				// if (token != null) {
 				while (token != null) {
-					attribute=token.replace(" ","").replace("=","");
-					System.out.println("   ATRBT:" + attribute);
+					attribute = token.replace(" ", "").replace("=", "");
+					System.out.println("   ATTRI:" + attribute);
 					char nextChar = hr.skipSpace(ins, '>');
 					if (nextChar == '"') {
-						// Looks like the element value is enclosed in quotes so
-						// read to the next double quote.
-						// This time there is no need for special terminal test
-						// of '>' as it will be valid inside a quote.
+						// Looks like the element value is enclosed in quotes so read to the next double quote.
+						// This time there is no need for special terminal test of '>' as it will be valid inside a quote.
 						token = hr.readString(ins, '"', '"');
 						if (token != null) {
-							attributeValue = token.substring(0,token.length()-1);
-							System.out.println("   VALUE:" + attributeValue);
-							uRLList.add(level, attributeValue);
+							if (element.equals("a")) {
+								attributeValue = token.substring(0,token.length() - 1);
+								System.out.println("   VALUE:" + attributeValue);
+								uRLList.add(level, attributeValue);
+							}
 						}
 					} else {
 						// TODO - element value is not quoted - presents a
 						// problem!!
 						// need some test cases for this.
 						// ignore for now as it is a rare event - I hope.
-						uRLList.add(level, "TODO-UNKNOWN");
+						if (element.equals("a")) {
+							uRLList.add(level, "TODO-UNKNOWN");
+						}
 					}
 					token = hr.readString(ins, '=', '>');
 				}
@@ -70,17 +74,22 @@ public class WebCrawler {
 		}
 
 		ins.close();
-		
+
 		System.out.println(uRLList);
 
 		return uRLList;
-
 
 	}
 
 	public void crawl(String url) throws IOException {
 
+		urlsToVisit.add(1, url);
+
+        for (URLListElement e:urlsToVisit) {
+        	
+        }
 		visitURL(1, url);
+
 	}
 
 	public static void main(String[] args) {
