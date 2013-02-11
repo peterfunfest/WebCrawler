@@ -11,20 +11,20 @@ import org.junit.Test;
 
 public class HTMLReaderTest {
 
-	private InputStream testInputStream;
+	private static InputStream testInputStream;
 	
 	// Template pinched from wikipedia
 	
 	    @BeforeClass
 	    public static void setUpClass() throws Exception {
 	        // Code executed before the first test method 
+	    	String testInputString="<html this is fun - no it isn't />";       
+	        testInputStream = new ByteArrayInputStream(testInputString.getBytes("UTF-8"));
 	    }
 	 
 	    @Before
 	    public void setUp() throws Exception {
 	        // Code executed before each test    
-	    	String testInputString="<html this is fun - no it isn't />";       
-	        testInputStream = new ByteArrayInputStream(testInputString.getBytes("UTF-8"));
 	    }
 	 
 	    @Test

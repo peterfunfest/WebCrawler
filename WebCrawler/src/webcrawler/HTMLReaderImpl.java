@@ -15,7 +15,7 @@ public class HTMLReaderImpl implements HTMLReader {
 
 		do {
 			b = in.read();
-		} while (b>0 && b!=ch1 && b!=ch2);
+		} while (b>=0 && b!=ch1 && b!=ch2);
 
 		return (b==ch1);
 		
@@ -25,13 +25,13 @@ public class HTMLReaderImpl implements HTMLReader {
 	 * @see webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)
 	 */
 	//@Override
-	public int skipSpace(InputStream in, char ch) throws IOException {
+	public char skipSpace(InputStream in, char ch) throws IOException {
 		
 		int b;
 
 		do {
 			b = in.read();
-		} while (b>0 && b!=ch && Character.isWhitespace(ch));
+		} while (b>=0 && b!=ch && Character.isWhitespace(ch));
 
 		return (b==ch?Character.MIN_VALUE:(char)b);
 
@@ -49,10 +49,11 @@ public class HTMLReaderImpl implements HTMLReader {
         do {
 			b = in.read();
 			sb.append((char)b);
-		} while (b>0 && b!=ch1 && b!=ch2);
+		} while (b>=0 && b!=ch1 && b!=ch2);
 
 		return ( (b==ch1 || b==-1) ? sb.toString() : null);
 		
 	}
+
 	
 }
