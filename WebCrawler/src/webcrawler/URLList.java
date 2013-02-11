@@ -33,5 +33,9 @@ public class URLList {
     	urls.remove(urls.indexOf(e));
     	return this;
     }
+    
+    public String toString() {
+    	return "";
+    }
 
 }
