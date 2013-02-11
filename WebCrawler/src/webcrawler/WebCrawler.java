@@ -17,8 +17,10 @@ public class WebCrawler {
 		urlsVisited = new URLList();
 	}
 
-	public void visitURL(int level, String url) throws IOException {
+	public URLList visitURL(int level, String url) throws IOException {
 
+		URLList uRLList = new URLList();
+		
 		URL u = new URL(url);
 
 		InputStream ins;
@@ -28,15 +30,21 @@ public class WebCrawler {
 		// Trundle through the HTML one element at a time.
 
 		while (hr.readUntil(ins, '<', '<')) {
+
 			// Inside an element - may be a closing element - but an element at
 			// least.
+
 			String token = hr.readString(ins, ' ', '>');
+			String attribute;
+			String attributeValue;
+
 			if (token != null) {
 				System.out.println("ELEMENT: <" + token.trim() + ">");
 				token = hr.readString(ins, '=', '>');
 				// if (token != null) {
 				while (token != null) {
-					System.out.println("   ATRBT:" + token.replace(" ","").replace("=",""));
+					attribute=token.replace(" ","").replace("=","");
+					System.out.println("   ATRBT:" + attribute);
 					char nextChar = hr.skipSpace(ins, '>');
 					if (nextChar == '"') {
 						// Looks like the element value is enclosed in quotes so
@@ -45,12 +53,16 @@ public class WebCrawler {
 						// of '>' as it will be valid inside a quote.
 						token = hr.readString(ins, '"', '"');
 						if (token != null) {
-							System.out.println("   VALUE:" + token.substring(0,token.length()-1));
+							attributeValue = token.substring(0,token.length()-1);
+							System.out.println("   VALUE:" + attributeValue);
+							uRLList.add(level, attributeValue);
 						}
 					} else {
 						// TODO - element value is not quoted - presents a
 						// problem!!
 						// need some test cases for this.
+						// ignore for now as it is a rare event - I hope.
+						uRLList.add(level, "TODO-UNKNOWN");
 					}
 					token = hr.readString(ins, '=', '>');
 				}
@@ -58,8 +70,11 @@ public class WebCrawler {
 		}
 
 		ins.close();
+		
+		System.out.println(uRLList);
 
-		// System.out.println(urlsToVisit);
+		return uRLList;
+
 
 	}
 
