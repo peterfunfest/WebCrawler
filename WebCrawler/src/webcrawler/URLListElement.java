@@ -26,4 +26,8 @@ public class URLListElement {
 		this.url = url;
 	}
 	
+	public String toString() {
+		return "Priority:" + priority + ", url:"+url;
+	}
+	
 }

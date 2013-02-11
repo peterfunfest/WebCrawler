@@ -35,7 +35,11 @@ public class URLList {
     }
     
     public String toString() {
-    	return "";
+    	if (baseReference==null)
+     	   return "BaseReference = '' : urls=" + urls.toString();
+    	else
+     	   return "BaseReference = '"+baseReference+"' : urls=" + urls.toString();
+    		
     }
 
 }
