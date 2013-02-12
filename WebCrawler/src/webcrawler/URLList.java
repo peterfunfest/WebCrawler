@@ -1,45 +1,37 @@
 package webcrawler;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class URLList {
 
-private List<URLListElement> urls;
-private String baseReference;
+	private List<URLListElement> urls;
 
-public String getBaseReference() {
-return baseReference;
-}
+	public URLList() {
+		urls = new ArrayList<URLListElement>();
+	}
 
-public void setBaseReference(String baseReference) {
-this.baseReference = baseReference;
-}
+	public URLList add(int priority, String url) {
+		return this.add(new URLListElement(priority, url));
+	}
 
-public URLList() {
-urls = new ArrayList<URLListElement>();
-}
+	public URLList add(URLListElement e) {
+		urls.add(e);
+		return this;
+	}
 
-    public URLList add(int priority, String url)	{
-     return this.add(new URLListElement(priority, url));
-    }
+	public URLList remove(URLListElement e) {
+		urls.remove(urls.indexOf(e));
+		return this;
+	}
 
-    public URLList add(URLListElement e)	{
-     urls.add(e);
-     return this;
-    }
+	public String toString() {
+		return urls.toString();
+	}
 
-    public URLList remove(URLListElement e) {
-     urls.remove(urls.indexOf(e));
-     return this;
-    }
-    
-    public String toString() {
-     if (baseReference==null)
-      return "BaseReference = '' : urls=" + urls.toString();
-     else
-      return "BaseReference = '"+baseReference+"' : urls=" + urls.toString();
-    
-    }
+	public List<URLListElement> getUrls() {
+		return this.urls;
+	}
 
 }
