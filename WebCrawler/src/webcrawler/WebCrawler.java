@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 public class WebCrawler {
 
 	private final static Logger LOGGER = Logger.getLogger(WebCrawler.class.getName());
+	
+	private final static int MAXIMUM_DEPTH = 3;
 
 	private HTMLReader hr;
 
@@ -24,7 +26,11 @@ public class WebCrawler {
 	private String expandURL(URL url, String urlString) {
 
 		if (!urlString.startsWith("http")) {
-			return url.getProtocol() + "://" + url.getHost() + url.getPath() + urlString;
+			if (url.getPath().startsWith("/")) {
+				return url.getProtocol() + "://" + url.getHost() + url.getPath() + urlString;
+			} else {
+				return url.getProtocol() + "://" + url.getHost() + "/" + url.getPath() + urlString;				
+			}
 //			return url.getProtocol() + "://" + url.getHost() + url.getPort() + url.getPath() + urlString;
 //			return url.getProtocol() + "://" + url.getPath() + urlString;
 		} else {
@@ -35,7 +41,7 @@ public class WebCrawler {
 
 	public URLList visitURL(int level, String url) throws IOException {
 
-		LOGGER.info("Visiting " + url);
+		LOGGER.info("Level=" + level + ", Visiting " + url);
 
 		URLList uRLList = new URLList();
 
@@ -87,8 +93,7 @@ public class WebCrawler {
 						token = hr.readString(ins, '"', '"');
 						if (token != null) {
 							if (element.equals("a")) {
-								attributeValue = token.substring(0,
-										token.length() - 1);
+								attributeValue = token.substring(0,token.length() - 1);
 							//	LOGGER.info("   VALUE:" + attributeValue);
 							//	LOGGER.info(" X-VALUE:" + expandURL(u, attributeValue));
 //								uRLList.add(level, attributeValue);
@@ -142,11 +147,10 @@ public class WebCrawler {
 			try {
 				
 				URLListElement e = urlsToVisit.getUrls().get(idx);
-				URLList visitedUrls = visitURL(e.getPriority() + 1, e.getUrl());
+				URLList extractedURLs = visitURL(e.getPriority() + 1, e.getUrl());
 				urlsVisited.add(e);
 
-				Iterator<URLListElement> innterItr = visitedUrls.getUrls()
-						.iterator();
+				Iterator<URLListElement> innterItr = extractedURLs.getUrls().iterator();
 
 				while (innterItr.hasNext()) {
 					urlsToVisit.add(innterItr.next());
