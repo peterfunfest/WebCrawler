@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class WebCrawler {
@@ -26,6 +27,12 @@ public class WebCrawler {
 	private String expandURL(URL url, String urlString) {
 
 		if (!urlString.startsWith("http")) {
+			return url.getProtocol() + "://" + 
+		                          url.getHost() + 
+		                          ((url.getPort()==-1)?"":url.getPort()) + 
+		                          ((url.getPath().endsWith("/"))?url.getPath().substring(0,url.getPath().length()-1):url.getPath()) + 
+		                          ((!urlString.equals("") && urlString.charAt(0)=='/')?urlString:"/"+urlString);
+/*
 			if (url.getPath().startsWith("/")) {
 				return url.getProtocol() + "://" + url.getHost() + url.getPath() + urlString;
 			} else {
@@ -33,20 +40,26 @@ public class WebCrawler {
 			}
 //			return url.getProtocol() + "://" + url.getHost() + url.getPort() + url.getPath() + urlString;
 //			return url.getProtocol() + "://" + url.getPath() + urlString;
-		} else {
+*/
+			} else {
 			return urlString;
 		}
 
 	}
 
 	public URLList visitURL(int level, String url) throws IOException {
+		
+		LOGGER.setLevel(Level.SEVERE);
 
-		LOGGER.info("Level=" + level + ", Visiting " + url);
+		LOGGER.info("Level=" + (level) + ", Visiting " + url);
+		
+		System.out.println(level + " - " + url);
 
 		URLList uRLList = new URLList();
 
 		URL u = new URL(url);
 
+System.out.println("Host      : " + u.getHost());
 //		LOGGER.info("Protocol  : " + u.getProtocol());
 //		LOGGER.info("Host      : " + u.getHost());
 //		LOGGER.info("Port      : " + u.getPort());
@@ -96,8 +109,8 @@ public class WebCrawler {
 								attributeValue = token.substring(0,token.length() - 1);
 							//	LOGGER.info("   VALUE:" + attributeValue);
 							//	LOGGER.info(" X-VALUE:" + expandURL(u, attributeValue));
-//								uRLList.add(level, attributeValue);
-								uRLList.add(level, expandURL(u, attributeValue));
+//								uRLList.add(level+1, attributeValue);
+								uRLList.add(level+1, expandURL(u, attributeValue));
 							}
 						}
 					} else {
@@ -106,7 +119,7 @@ public class WebCrawler {
 						// need some test cases for this.
 						// ignore for now as it is a rare event - I hope.
 						if (element.equals("a")) {
-							uRLList.add(level, "TODO-UNKNOWN");
+							uRLList.add(level+1, "TODO-UNKNOWN");
 						}
 					}
 					token = hr.readString(ins, '=', '>');
@@ -117,6 +130,10 @@ public class WebCrawler {
 		}
 
 		ins.close();
+
+		for (URLListElement e: uRLList.getUrls()) {
+			System.out.println("   " + e.toString());			
+		}
 
 		LOGGER.info(uRLList.toString());
 
@@ -147,15 +164,21 @@ public class WebCrawler {
 			try {
 				
 				URLListElement e = urlsToVisit.getUrls().get(idx);
-				URLList extractedURLs = visitURL(e.getPriority() + 1, e.getUrl());
-				urlsVisited.add(e);
 
-				Iterator<URLListElement> innterItr = extractedURLs.getUrls().iterator();
+				if (e.getPriority() < MAXIMUM_DEPTH) {
+					
+					URLList extractedURLs = visitURL(e.getPriority(), e.getUrl());
+					urlsVisited.add(e);
 
-				while (innterItr.hasNext()) {
-					urlsToVisit.add(innterItr.next());
+					Iterator<URLListElement> innerItr = extractedURLs.getUrls().iterator();
+
+					while (innerItr.hasNext()) {
+						urlsToVisit.add(innerItr.next());
+					}
+
 				}
 			} catch (IOException e) {
+				// Display the error, but continue.
 				e.printStackTrace();
 			}
 
@@ -174,8 +197,11 @@ public class WebCrawler {
 			// wc.crawl("http://localhost:8080/www.bbc.co.uk/this/is/a/path/thisisafile.php?qry=3&qry2=2");
 			wc.crawl("http://www.bbc.co.uk");
 			// wc.crawl("http://www.bbk.ac.uk");
-			// wc.crawl("http://www.guardian.co.uk");
-
+		 //wc.crawl("http://www.guardian.co.uk");
+		 //wc.crawl("http://www.cwjobs.co.uk");
+//		 wc.crawl("http://www.searchenginejournal.com/25-ways-to-get-penalized-in-2012/47245/");
+		 //wc.crawl("http://www.dcs.bbk.ac.uk/~keith");
+		 
 	}
 
 }
