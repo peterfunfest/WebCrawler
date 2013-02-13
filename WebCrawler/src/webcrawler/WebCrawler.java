@@ -4,13 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class WebCrawler {
 
-	private final static Logger LOGGER = Logger.getLogger(WebCrawler.class.getName());
-	
 	private final static int MAXIMUM_DEPTH = 3;
 
 	private HTMLReader hr;
@@ -32,15 +28,6 @@ public class WebCrawler {
 		                          ((url.getPort()==-1)?"":url.getPort()) + 
 		                          ((url.getPath().endsWith("/"))?url.getPath().substring(0,url.getPath().length()-1):url.getPath()) + 
 		                          ((!urlString.equals("") && urlString.charAt(0)=='/')?urlString:"/"+urlString);
-/*
-			if (url.getPath().startsWith("/")) {
-				return url.getProtocol() + "://" + url.getHost() + url.getPath() + urlString;
-			} else {
-				return url.getProtocol() + "://" + url.getHost() + "/" + url.getPath() + urlString;				
-			}
-//			return url.getProtocol() + "://" + url.getHost() + url.getPort() + url.getPath() + urlString;
-//			return url.getProtocol() + "://" + url.getPath() + urlString;
-*/
 			} else {
 			return urlString;
 		}
@@ -49,28 +36,14 @@ public class WebCrawler {
 
 	public URLList visitURL(int level, String url) throws IOException {
 		
-		LOGGER.setLevel(Level.SEVERE);
-
-		LOGGER.info("Level=" + (level) + ", Visiting " + url);
-		
 		System.out.println(level + " - " + url);
 
 		URLList uRLList = new URLList();
 
 		URL u = new URL(url);
 
-System.out.println("Host      : " + u.getHost());
-//		LOGGER.info("Protocol  : " + u.getProtocol());
-//		LOGGER.info("Host      : " + u.getHost());
-//		LOGGER.info("Port      : " + u.getPort());
-//		LOGGER.info("Path      : " + u.getPath());
-//		LOGGER.info("Query     : " + u.getQuery());
-
-//		LOGGER.info("File      : " + u.getFile());
-//		LOGGER.info("Dflt Port : " + u.getDefaultPort());
-
-//		LOGGER.info("Ref       : " + u.getRef());
-//		LOGGER.info("UserInfo  : " + u.getUserInfo());
+//TODO - REMOVE THIS
+        System.out.println("Host      : " + u.getHost());
 
 		InputStream ins;
 
@@ -90,13 +63,10 @@ System.out.println("Host      : " + u.getHost());
 
 			if (token != null) {
 				element = token.trim();
-//				LOGGER.info("ELEMENT" + level + ": <" + element + ">");
 				token = hr.readString(ins, '=', '>');
-				// if (token != null) {
 
 				while (token != null) {
 					attribute = token.replace(" ", "").replace("=", "");
-			//		LOGGER.info("   ATTRI:" + attribute);
 					char nextChar = hr.skipSpace(ins, '>');
 					if (nextChar == '"') {
 						// Looks like the element value is enclosed in quotes so
@@ -107,9 +77,7 @@ System.out.println("Host      : " + u.getHost());
 						if (token != null) {
 							if (element.equals("a")) {
 								attributeValue = token.substring(0,token.length() - 1);
-							//	LOGGER.info("   VALUE:" + attributeValue);
-							//	LOGGER.info(" X-VALUE:" + expandURL(u, attributeValue));
-//								uRLList.add(level+1, attributeValue);
+								//uRLList.add(level+1, attributeValue);
 								uRLList.add(level+1, expandURL(u, attributeValue));
 							}
 						}
@@ -135,8 +103,6 @@ System.out.println("Host      : " + u.getHost());
 			System.out.println("   " + e.toString());			
 		}
 
-		LOGGER.info(uRLList.toString());
-
 		return uRLList;
 
 	}
@@ -147,14 +113,8 @@ System.out.println("Host      : " + u.getHost());
 
 		//
 		// Because we are about to transmogrify urlsToVisit, we can't iterate
-		// over it
-		// in the conventional way - lest there is a
+		// over it in the conventional way - lest there is a
 		// java.util.ConcurrentModificationException
-		// which would drive any normal person to suicide.
-		//
-		// GOOD JOB I'M NOT NORMAL.
-		//
-		// ;-)
 		//
 
 		int idx = 0;
@@ -190,8 +150,10 @@ System.out.println("Host      : " + u.getHost());
 
 	public static void main(String[] args) {
 
-		// Refactor the new HTMLReaderImpl bit with either factory method or
-		// abstract factory.
+//TODO
+// Refactor the new HTMLReaderImpl bit with either factory method or
+// abstract factory. That would be fun.
+
 		WebCrawler wc = new WebCrawler(new HTMLReaderImpl());
 
 			// wc.crawl("http://localhost:8080/www.bbc.co.uk/this/is/a/path/thisisafile.php?qry=3&qry2=2");
