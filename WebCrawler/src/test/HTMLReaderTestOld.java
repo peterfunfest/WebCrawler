@@ -12,6 +12,8 @@ import org.junit.Test;
 /*
  * I am canning this class to use the eclipse generated Junit template instead, just to keep things consistent.
  * Will be deleted eventually.
+ * 
+ * I AM DEEPLY INSULTED!
  */
 
 public class HTMLReaderTestOld {
