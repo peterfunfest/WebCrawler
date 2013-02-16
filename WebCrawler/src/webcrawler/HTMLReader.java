@@ -11,6 +11,7 @@ import java.io.InputStream;
 public interface HTMLReader {
 
 	/**
+	 * Test
 	 * Accepts an instance of an InputSteam and two char's as parameters. 
 	 * Consumes characters from the InputStream and stops when either a character that 
 	 * is the same as either of the other two parameters is encountered (ignoring case).

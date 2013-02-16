@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.Observable;
 
-public class WebCrawler extends Observable {
+public class WebCrawler {
 
-	private final static int MAXIMUM_DEPTH = 3;
+	private final static int MAXIMUM_DEPTH = 1;
 
 	private HTMLReader hr;
 
@@ -64,9 +63,11 @@ public class WebCrawler extends Observable {
 
 			if (token != null) {
 				element = token.trim();
+                System.out.println(element);
 				token = hr.readString(ins, '=', '>');
 				while (token != null) {
 					attribute = token.replace(" ", "").replace("=", "");
+	                System.out.println("   " + attribute);
 					char nextChar = hr.skipSpace(ins, '>');
 					if (nextChar == '"') {
 						// Looks like the element value is enclosed in quotes so
@@ -90,11 +91,7 @@ public class WebCrawler extends Observable {
 	//						uRLList.add(level+1, "TODO-UNKNOWN:" + token);
 		//				}
 					}
-					setChanged();
-					notifyObservers(new WebCrawlerEvent(element,attribute,attributeValue));
-//	                System.out.print(element);
-	//                System.out.print("-" + attribute);
-	  //              System.out.println("      " + attributeValue);
+	                System.out.println("      " + attributeValue);
 					token = hr.readString(ins, '=', '>');
 				}
 
@@ -153,5 +150,22 @@ public class WebCrawler extends Observable {
 
 	}
 
+	public static void main(String[] args) {
+
+//TODO
+// Refactor the new HTMLReaderImpl bit with either factory method or
+// abstract factory. That would be fun.
+
+		WebCrawler wc = new WebCrawler(new HTMLReaderImpl());
+
+			// wc.crawl("http://localhost:8080/www.bbc.co.uk/this/is/a/path/thisisafile.php?qry=3&qry2=2");
+			wc.crawl("http://www.bbc.co.uk");
+			// wc.crawl("http://www.bbk.ac.uk");
+		 //wc.crawl("http://www.guardian.co.uk");
+		 //wc.crawl("http://www.cwjobs.co.uk");
+//		 wc.crawl("http://www.searchenginejournal.com/25-ways-to-get-penalized-in-2012/47245/");
+		 //wc.crawl("http://www.dcs.bbk.ac.uk/~keith");
+		 
+	}
 
 }
