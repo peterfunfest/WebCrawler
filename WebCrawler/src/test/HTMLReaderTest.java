@@ -252,12 +252,175 @@ public void testReadUntilCaseFour() {
 	/**
 	 * Test method for
 	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}.
+	 * Test for the case where ch1 is not found and the first non-whitespace character is returned.
 	 */
 	@Test
-	public void testSkipSpace() {
+	public void testSkipSpaceCaseOne() {
+		
+		String testInputString = "<html this is fun - no it isn't />";
+		char ch1 = 'h';
+		char returnedValue = ' ';
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.skipSpace(testInputStream, ch1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, '<');
 
 	}
+	
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}.
+	 * Test for the case where ch1 is not found and the first non-whitespace character is returned.
+	 * This time the InputStream has whitespace at the start
+	 */
+	@Test
+	public void testSkipSpaceCaseTwo() {
+		
+		String testInputString = " <html this is fun - no it isn't />";
+		char ch1 = 'h';
+		char returnedValue = ' ';
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
 
+		try {
+			returnedValue = htmlReader.skipSpace(testInputStream, ch1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, "<");
+
+	}
+	
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}.
+	 * Tests for the case where ch1 is encountered and the smallest possible value for a char is returned
+	 */
+	@Test
+	public void testSkipSpaceCaseThree() {
+		
+		String testInputString = "<html this is fun - no it isn't />";
+		char ch1 = '<';
+		char returnedValue = ' ';
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.skipSpace(testInputStream, ch1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, Character.MIN_VALUE);
+
+	}
+	
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}.
+	 * Tests for the case where ch1 is encountered and the smallest possible value for a char is returned
+	 * This time with whitespace at the start
+	 */
+	@Test
+	public void testSkipSpaceCaseFour() {
+		
+		String testInputString = " <html this is fun - no it isn't />";
+		char ch1 = '<';
+		char returnedValue = ' ';
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.skipSpace(testInputStream, ch1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, Character.MIN_VALUE);
+
+	}
+	
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}.
+	 * Tests for the case where the inputStream supplied is null
+	 * NOT SURE HOW WE HANDLE THIS ONE!
+	 */
+	@Test
+	public void testSkipSpaceCaseFive() {
+		
+		char ch1 = '<';
+		char returnedValue = ' ';
+		testInputStream = null;
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.skipSpace(testInputStream, ch1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, Character.MIN_VALUE);
+
+	}
+	
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}.
+	 * Tests for the case where the InputSteam is an empty string
+	 * NOT SURE HOW WE HANDLE THIS ONE!
+	 */
+	@Test
+	public void testSkipSpaceCaseSix() {
+		
+		String testInputString = "";
+		char ch1 = '<';
+		char returnedValue = ' ';
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.skipSpace(testInputStream, ch1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, Character.MIN_VALUE);
+
+	}
+	
+	
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}.
+	 * Tests for the case where the InputSteam contains only white space
+	 * NOT SURE HOW WE HANDLE THIS ONE!
+	 */
+	@Test
+	public void testSkipSpaceCaseSeven() {
+		
+		String testInputString = "    ";
+		char ch1 = '<';
+		char returnedValue = ' ';
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.skipSpace(testInputStream, ch1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, Character.MIN_VALUE);
+
+	}
 	/**
 	 * Test method for
 	 * {@link webcrawler.HTMLReader#readString(java.io.InputStream, char, char)}
