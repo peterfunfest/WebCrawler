@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 public class WebCrawler {
 
-	private final static int MAXIMUM_DEPTH = 1;
+	private final static int MAXIMUM_DEPTH = 2;
 
 	private HTMLReader hr;
 
@@ -22,7 +22,7 @@ public class WebCrawler {
 
 	private String expandURL(URL url, String urlString) {
 
-		if (!urlString.startsWith("http")) {
+		if (urlString != null && !urlString.startsWith("http")) {
 			return url.getProtocol()
 					+ "://"
 					+ url.getHost()
@@ -68,39 +68,38 @@ public class WebCrawler {
 				if (element.equals("a")) {
 
 					token = hr.readString(ins, '=', '>');
+
 					while (token != null) {
+						
 						attribute = token.replace(" ", "").replace("=", "");
 						
 						if (attribute.equals("href")) {
 							
-						char nextChar = hr.skipSpace(ins, '>');
-						if (nextChar == '"') {
-							// Looks like the element value is enclosed in
-							// quotes so
-							// read to the next double quote.
-							// This time there is no need for special terminal
-							// test
-							// of '>' as it will be valid inside a quote.
-							token = hr.readString(ins, '"', '"');
-							if (token != null) {
-								attributeValue = token.substring(0,token.length() - 1);
-								// uRLList.add(level+1, attributeValue);
-								// uRLList.add(level+1, expandURL(u,
-								// attributeValue));
+							char nextChar = hr.skipSpace(ins, '>');
+							
+							if (nextChar == '"') {
+								// Looks like the element value is enclosed in quotes so
+								// read to the next double quote.
+								// This time there is no need for special terminal
+								// test of '>' as it will be valid inside a quote.
+								token = hr.readString(ins, '"', '"');
+								if (token != null) {
+									attributeValue = token.substring(0,token.length() - 1);
+								}
+								
+							} else {
+
+								// Element value is not quoted 
+								token = hr.readString(ins, ' ', '>');
+								attributeValue = token;
+
 							}
-						} else {
-							// TODO - element value is not quoted - presents a
-							// problem!!
-							// need some test cases for this.
-							// ignore for now as it is a rare event - I hope.
-							token = hr.readString(ins, ' ', '>');
-							attributeValue = token;
-							// if (element.equals("a")) {
-							// uRLList.add(level+1, "TODO-UNKNOWN:" + token);
-							// }
-						}
-						System.out.println("   " + element + "-" + attribute
-								+ "-" + attributeValue);
+							
+							System.out.println("   " + element + "-" + attribute
+									+ "-" + attributeValue);
+
+							uRLList.add(level+1, expandURL(u,attributeValue));
+
 						}
 
 						token = hr.readString(ins, '=', '>');
@@ -174,12 +173,12 @@ public class WebCrawler {
 		WebCrawler wc = new WebCrawler(new HTMLReaderImpl());
 
 		// wc.crawl("http://localhost:8080/www.bbc.co.uk/this/is/a/path/thisisafile.php?qry=3&qry2=2");
-		wc.crawl("http://www.bbc.co.uk");
+		//wc.crawl("http://www.bbc.co.uk");
 		// wc.crawl("http://www.bbk.ac.uk");
 		// wc.crawl("http://www.guardian.co.uk");
 		// wc.crawl("http://www.cwjobs.co.uk");
 		// wc.crawl("http://www.searchenginejournal.com/25-ways-to-get-penalized-in-2012/47245/");
-		// wc.crawl("http://www.dcs.bbk.ac.uk/~keith");
+		 wc.crawl("http://www.dcs.bbk.ac.uk/~keith");
 
 	}
 
