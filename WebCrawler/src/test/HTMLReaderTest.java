@@ -75,7 +75,7 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, true);
+		assertEquals("Wrong value returned", true, returnedValue);
 
 	}
 
@@ -99,7 +99,7 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, true);
+		assertEquals("Wrong value returned", true, returnedValue);
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, false);
+		assertEquals("Wrong value returned", false, returnedValue);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, false);
+		assertEquals("Wrong value returned", false, returnedValue);
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, false);
+		assertEquals("Wrong value returned", false, returnedValue);
 	}
 
 	/**
@@ -190,7 +190,7 @@ public void testReadUntilCaseFour() {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, false);
+		assertEquals("Wrong value returned", false, returnedValue);
 	}
 
 	/**
@@ -210,7 +210,7 @@ public void testReadUntilCaseFour() {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		assertEquals("Wrong value returned", returnedValue, false);
+		assertEquals("Wrong value returned", false, returnedValue);
 	}
 
 	/**
@@ -245,7 +245,7 @@ public void testReadUntilCaseFour() {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, true);
+		assertEquals("Wrong value returned", true, returnedValue);
 
 	}
 
@@ -269,7 +269,7 @@ public void testReadUntilCaseFour() {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, '<');
+		assertEquals("Wrong value returned", '<', returnedValue);
 
 	}
 	
@@ -294,7 +294,7 @@ public void testReadUntilCaseFour() {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, "<");
+		assertEquals("Wrong value returned", "<", returnedValue);
 
 	}
 	
@@ -318,7 +318,7 @@ public void testReadUntilCaseFour() {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, Character.MIN_VALUE);
+		assertEquals("Wrong value returned", Character.MIN_VALUE, returnedValue);
 
 	}
 	
@@ -343,7 +343,7 @@ public void testReadUntilCaseFour() {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, Character.MIN_VALUE);
+		assertEquals("Wrong value returned", Character.MIN_VALUE, returnedValue);
 
 	}
 	
@@ -367,7 +367,7 @@ public void testReadUntilCaseFour() {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, Character.MIN_VALUE);
+		assertEquals("Wrong value returned", Character.MIN_VALUE, returnedValue);
 
 	}
 	
@@ -392,7 +392,7 @@ public void testReadUntilCaseFour() {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, Character.MIN_VALUE);
+		assertEquals("Wrong value returned", Character.MIN_VALUE, returnedValue);
 
 	}
 	
@@ -418,17 +418,177 @@ public void testReadUntilCaseFour() {
 			e.printStackTrace();
 		}
 
-		assertEquals("Wrong value returned", returnedValue, Character.MIN_VALUE);
+		assertEquals("Wrong value returned", Character.MIN_VALUE, returnedValue);
 
 	}
 	/**
 	 * Test method for
 	 * {@link webcrawler.HTMLReader#readString(java.io.InputStream, char, char)}
-	 * .
+	 * Tests the base case where ch1 is encountered, and a string is returned containing all of the characters that have been read
 	 */
 	@Test
-	public void testReadString() {
-		fail("Not yet implemented"); // TODO
+	public void testReadStringCaseOne() {
+		
+		String testInputString = "<html this is fun - no it isn't />";
+		char ch1 = 't';
+		char ch2 = 'z';
+		String returnedValue = "";
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readString(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", "<ht", returnedValue);
 	}
 
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readString(java.io.InputStream, char, char)}
+	 * Tests the case where ch2 is encountered and a null string is returned.
+	 */
+	@Test
+	public void testReadStringCaseTwo() {
+		
+		String testInputString = "<html this is fun - no it isn't />";
+		char ch1 = 'z';
+		char ch2 = 't';
+		String returnedValue = "";
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readString(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", null, returnedValue);
+	}
+	
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readString(java.io.InputStream, char, char)}
+	 * Exception case where the input stream submitted is null
+	 */
+	@Test
+	public void testReadStringCaseThree() {
+		
+		char ch1 = 'z';
+		char ch2 = 't';
+		String returnedValue = "";
+		testInputStream = null;
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readString(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", null, returnedValue);
+	}
+	
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readString(java.io.InputStream, char, char)}
+	 * Exception case where neither ch1 or ch2 is found
+	 */
+	@Test
+	public void testReadStringCaseFour() {
+		
+		String testInputString = "<html this is fun - no it isn't />";
+		char ch1 = 'z';
+		char ch2 = 'z';
+		String returnedValue = "";
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readString(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", "<html this is fun - no it isn't />", returnedValue );
+	}
+	
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readString(java.io.InputStream, char, char)}
+	 * Tests the base case where ch1 is encountered, and a string is returned containing all of the characters that have been read
+	 * This time with leading whitespace
+	 */
+	@Test
+	public void testReadStringCaseFive() {
+		
+		String testInputString = "   <html this is fun - no it isn't />";
+		char ch1 = 't';
+		char ch2 = 'z';
+		String returnedValue = "";
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readString(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", "   <ht", returnedValue);
+	}
+	
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readString(java.io.InputStream, char, char)}
+	 * Tests the base case where ch1 is encountered, and a string is returned containing all of the characters that have been read
+	 * This time checking that case is ignored
+	 */
+	@Test
+	public void testReadStringCaseSix() {
+		
+		String testInputString = "<html This is fun - no it isn't />";
+		char ch1 = 'T';
+		char ch2 = 'z';
+		String returnedValue = "";
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readString(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", "<html T", returnedValue);
+	}
+	
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readString(java.io.InputStream, char, char)}
+	 * Tests the case where ch2 is encountered and a null string is returned.
+	 * This time making sure the case is ignored
+	 */
+	@Test
+	public void testReadStringCaseSeven() {
+		
+		String testInputString = "<html This is fun - no it isn't />";
+		char ch1 = 'z';
+		char ch2 = 'T';
+		String returnedValue = "";
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readString(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", null, returnedValue);
+	}
+	
 }
