@@ -31,9 +31,9 @@ public class HTMLReaderImpl implements HTMLReader {
 		do {
 			b = in.read();
 			charToCompare = (char) Character.toLowerCase(b);
-			System.out.println("Char to Compare = " + charToCompare);
-			System.out.println("Char 1 LC = " + ch1LowerCase);
-			System.out.println("Char 2 LC = " + ch2LowerCase);
+			//System.out.println("Char to Compare = " + charToCompare);
+			//System.out.println("Char 1 LC = " + ch1LowerCase);
+			//System.out.println("Char 2 LC = " + ch2LowerCase);
 
 		} while (b >= 0 && charToCompare != ch1LowerCase
 				&& charToCompare != ch2LowerCase);
