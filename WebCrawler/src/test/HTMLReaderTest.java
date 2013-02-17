@@ -1,7 +1,3 @@
-
-/**
- * 
- */
 package test;
 
 import static org.junit.Assert.*;
@@ -21,12 +17,15 @@ import webcrawler.HTMLReader;
 import webcrawler.HTMLReaderImpl;
 
 /**
- * @author IAINLAPTOP
- * 
+ * @author Peter Hayes, Iain Ritchie JUnit test cases for HTMLReader Need to
+ *         refactor so that each test contains one assertion Currently if an
+ *         assertion fails it does not proceed to the next.
  */
+
 public class HTMLReaderTest {
 
 	private static InputStream testInputStream;
+	private static boolean returnedValue;
 
 	/**
 	 * @throws java.lang.Exception
@@ -59,25 +58,187 @@ public class HTMLReaderTest {
 	/**
 	 * Test method for
 	 * {@link webcrawler.HTMLReader#readUntil(java.io.InputStream, char, char)}.
+	 * Checks the case where ch1 is encountered and ch2 is not, checking for
+	 * case sensitivity
 	 */
 	@Test
-	public void testReadUntilTestOne() {
+	public void testReadUntilCaseOne() {
 		String testInputString = "<html this is fun - no it isn't />";
+		char ch1 = 'H';
+		char ch2 = 'z';
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, true);
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readUntil(java.io.InputStream, char, char)}.
+	 * Checks the case where ch1 and ch2 are the same, with ch1 and ch2 in the
+	 * stream
+	 */
+	@Test
+	public void testReadUntilCaseEight() {
+		String testInputString = "<html this is fun - no it isn't />";
+		char ch1 = 'h';
+		char ch2 = 'h';
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, true);
+	}
+
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readUntil(java.io.InputStream, char, char)}.
+	 * Tests the case where InputStream is a space character
+	 */
+	@Test
+	public void testReadUntilCaseSeven() {
+		String testInputString = " ";
+		char ch1 = 'h';
+		char ch2 = 'h';
+
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, false);
+	}
+
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readUntil(java.io.InputStream, char, char)}.
+	 * Test the case where InputStream is an empty string
+	 */
+	@Test
+	public void testReadUntilCaseSix() {
+		String testInputString = "";
+		char ch1 = 'h';
+		char ch2 = 'h';
+
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, false);
+	}
+
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readUntil(java.io.InputStream, char, char)}.
+	 * Test the case where InputStream is null
+	 */
+	@Test
+	public void testReadUntilCaseFive() {
+		char ch1 = 'h';
+		char ch2 = 'h';
+
+		testInputStream = null;
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, false);
+	}
+
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readUntil(java.io.InputStream, char, char)}.
+	 * Checks the case where ch1 and ch2 are the same, with neither in the
+	 * stream
+	 */
+	@Test
+public void testReadUntilCaseFour() {
+		String testInputString = "<html this is fun - no it isn't />";
+		char ch1 = 'z';
+		char ch2 = 'z';
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+
+		try {
+			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Wrong value returned", returnedValue, false);
+	}
+
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readUntil(java.io.InputStream, char, char)}.
+	 * Checks the case where ch1 is not encountered and ch2 is.
+	 */
+	@Test
+	public void testReadUntilCaseThree() {
+		String testInputString = "<html this is fun - no it isn't />";
+		char ch1 = 'z';
+		char ch2 = 'h';
+		getInputStream(testInputString);
+		HTMLReader htmlReader = new HTMLReaderImpl();
+		try {
+			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		assertEquals("Wrong value returned", returnedValue, false);
+	}
+
+	/**
+	 * @param testInputString
+	 */
+	private void getInputStream(String testInputString) {
 		try {
 			testInputStream = new ByteArrayInputStream(
 					testInputString.getBytes("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
+	}
 
+	/**
+	 * Test method for
+	 * {@link webcrawler.HTMLReader#readUntil(java.io.InputStream, char, char)}.
+	 * Checks the case where ch1 is encountered and ch2 is not
+	 */
+
+	@Test
+	public void testReadUntilCaseTwo() {
+		String testInputString = "<html this is fun - no it isn't />";
+		char ch1 = 'h';
+		char ch2 = 'z';
+		getInputStream(testInputString);
 		HTMLReader htmlReader = new HTMLReaderImpl();
-		boolean returnedValue = false;
-		char ch1;
-		char ch2;
 
-		// Checks the case where ch1 is encountered and ch2 is not
-		ch1 = 'h';
-		ch2 = 'z';
 		try {
 			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
 		} catch (IOException e) {
@@ -85,52 +246,6 @@ public class HTMLReaderTest {
 		}
 
 		assertEquals("Wrong value returned", returnedValue, true);
-
-		// Checks the case where ch1 is encountered and ch2 is not, checking for case sensitivity
-		ch1 = 'H';
-		ch2 = 'z';
-		try {
-			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		assertEquals("Wrong value returned", returnedValue, true);
-
-		// Checks the case where ch1 is not encountered and ch2 is.
-		ch1 = 'z';
-		ch2 = 'h';
-		try {
-			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		assertEquals("Wrong value returned", returnedValue, false);
-
-		// Checks the case where ch1 and ch2 are the same, with neither in the stream
-		ch1 = 'z';
-		ch2 = 'z';
-		try {
-			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		assertEquals("Wrong value returned", returnedValue, false);
-
-		
-		// Checks the case where ch1 and ch2 are the same, with ch1 and ch2 in the stream
-		ch1 = 'h';
-		ch2 = 'h';
-		try {
-			returnedValue = htmlReader.readUntil(testInputStream, ch1, ch2);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		assertEquals("Wrong value returned", returnedValue, true);
-		
 
 	}
 
@@ -140,7 +255,7 @@ public class HTMLReaderTest {
 	 */
 	@Test
 	public void testSkipSpace() {
-		fail("Not yet implemented"); // TODO
+
 	}
 
 	/**

@@ -18,6 +18,13 @@ public class HTMLReaderImpl implements HTMLReader {
 	public boolean readUntil(InputStream in, char ch1, char ch2)
 			throws IOException {
 
+		// Need to handle the cases where InputSteam is null - Should we just return false?
+		
+		if (in == null){
+			return false;
+		}
+		
+		
 		// I think I have fixed the case sensitivity issue but it is still failing the following test case:
 		// ch1 and ch2 are the same; and are present in the input stream. I would expect 
 		// this method to return false but it is not.
