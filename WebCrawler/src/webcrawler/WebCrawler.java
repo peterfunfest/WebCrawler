@@ -2,6 +2,7 @@ package webcrawler;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 
@@ -20,6 +21,15 @@ public class WebCrawler {
 		urlsVisited = new URLList();
 	}
 
+	private String expandURL2(URL url, String urlString) throws MalformedURLException  {
+	// WORKING ON - alternative implementation
+        String result = new URL(url,urlString).toString();
+//		System.out.println("URL:"+url.toString());
+	//	System.out.println("REL:"+urlString);
+		//System.out.println("  =:"+result);
+	    return result;
+	}
+	
 	private String expandURL(URL url, String urlString) {
 
 		if (urlString != null && !urlString.startsWith("http")) {
@@ -37,13 +47,11 @@ public class WebCrawler {
 
 	public URLList extractLinks(int level, String url) throws IOException {
 
-		System.out.println(level + " - " + url);
+		System.out.println("Extracting " + level + " - " + url);
 
 		URLList uRLList = new URLList();
 
 		URL u = new URL(url);
-
-		System.out.println("Extracting Links From : " + u.getHost());
 
 		InputStream ins;
 
@@ -95,10 +103,12 @@ public class WebCrawler {
 
 							}
 							
-							System.out.println("   " + element + "-" + attribute
-									+ "-" + attributeValue);
+//							System.out.println("   " + element + "-" + attribute
+	//								+ "-" + attributeValue);
 
 							uRLList.add(level+1, expandURL(u,attributeValue));
+							uRLList.add(level+1, expandURL2(u,attributeValue));
+							
 
 						}
 
