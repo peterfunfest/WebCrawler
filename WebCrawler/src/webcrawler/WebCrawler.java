@@ -106,7 +106,7 @@ public class WebCrawler {
 //							System.out.println("   " + element + "-" + attribute
 	//								+ "-" + attributeValue);
 
-							uRLList.add(level+1, expandURL(u,attributeValue));
+//							uRLList.add(level+1, expandURL(u,attributeValue));
 							uRLList.add(level+1, expandURL2(u,attributeValue));
 							
 
