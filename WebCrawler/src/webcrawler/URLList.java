@@ -1,37 +1,20 @@
 package webcrawler;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
-public class URLList {
+public interface URLList {
 
-	private List<URLListElement> urls;
+	public void add(int priority, String url);
 
-	public URLList() {
-		urls = new ArrayList<URLListElement>();
-	}
+	public void add(URLListElement e);
 
-	public URLList add(int priority, String url) {
-		return this.add(new URLListElement(priority, url));
-	}
+	public String toString();
+	
+	public URLListElement get(int idx);
 
-	public URLList add(URLListElement e) {
-		urls.add(e);
-		return this;
-	}
-
-	public URLList remove(URLListElement e) {
-		urls.remove(urls.indexOf(e));
-		return this;
-	}
-
-	public String toString() {
-		return urls.toString();
-	}
-
-	public List<URLListElement> getUrls() {
-		return this.urls;
-	}
-
+	public int size();
+	
+	public Iterator<URLListElement> iterator();
+	
 }
+

@@ -1,7 +1,12 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 
 /**
@@ -20,6 +25,9 @@ public class Finalurllist implements Serializable {
 
 	private int id;
 
+	private int priority;
+
+	@Column(length=1000)
 	private String url;
 
 	public Finalurllist() {
@@ -31,6 +39,14 @@ public class Finalurllist implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getPriority() {
+		return this.priority;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
 	}
 
 	public String getUrl() {

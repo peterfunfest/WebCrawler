@@ -1,0 +1,70 @@
+package webcrawler;
+
+import java.util.Iterator;
+
+import model.Temporaryurllist;
+import db.DatabaseUtil;
+
+public class URLListDBTempImpl implements URLList {
+
+    private int saveIdx=1;
+    private int readIdx=1;
+	private DatabaseUtil db;
+
+	public URLListDBTempImpl() {
+		this.db = DatabaseUtil.getInstance();
+		db.deleteAllFromTemporaryTable();
+	}
+
+	@Override
+	public void add(int priority, String url) {
+		this.add(new URLListElement(priority, url));
+	}
+
+	@Override
+	public void add(URLListElement e) {
+		db.insertRecordTemporaryTable(saveIdx, e.getUrl(), e.getPriority());
+		saveIdx++;
+	}
+
+	@Override
+	public URLListElement get(int idx) {
+		Temporaryurllist t = db.getTemporaryURLListById(idx);
+		return new URLListElement(t.getPriority(), t.getUrl());
+	}
+
+	@Override
+	public int size() {
+		int rv = db.getTemporaryURLListSize();
+        System.out.println("Size is " + rv);
+		return rv;
+	}
+
+	@Override
+	public Iterator<URLListElement> iterator() {
+
+		return new Iterator<URLListElement>() {
+
+			@Override
+			public boolean hasNext() {
+				return (readIdx < saveIdx);
+			}
+
+			@Override
+			public URLListElement next() {
+				return get(readIdx++);
+			}
+
+			@Override
+			public void remove() {
+				throw new java.lang.IllegalAccessError("Method not implemented");
+			}};
+
+	}
+
+	@Override
+	public String toString() {
+		return this.toString();
+	}
+
+}

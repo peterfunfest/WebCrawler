@@ -1,177 +1,69 @@
 package webcrawler;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Iterator;
 
 public class WebCrawler {
 
-	private final static int MAXIMUM_DEPTH = 2;
+	private int maximumDepth;
 
-	private HTMLReader hr;
+	private HTMLReader hTMLReader;
 
-	private URLList urlsToVisit;
-	private URLList urlsVisited;
+	private URLList uRLList;
 
-	WebCrawler(HTMLReader hr) {
-		this.hr = hr;
-		urlsToVisit = new URLList();
-		urlsVisited = new URLList();
+	public WebCrawler(HTMLReader hTMLReader, URLList urlsToVisit) {
+		this.hTMLReader = hTMLReader;
+		this.uRLList = urlsToVisit;
+		this.maximumDepth = 1;
 	}
 
-	private String expandURL2(URL url, String urlString) throws MalformedURLException  {
-	// WORKING ON - alternative implementation
-        String result = new URL(url,urlString).toString();
-//		System.out.println("URL:"+url.toString());
-	//	System.out.println("REL:"+urlString);
-		//System.out.println("  =:"+result);
-	    return result;
+	public int getMaximumDepth() {
+		return maximumDepth;
 	}
-	
-	private String expandURL(URL url, String urlString) {
 
-		if (urlString != null && !urlString.startsWith("http")) {
-			return url.getProtocol()
-					+ "://"
-					+ url.getHost()
-					+ ((url.getPort() == -1) ? "" : url.getPort())
-					+ ((url.getPath().endsWith("/")) ? url.getPath().substring(0, url.getPath().length() - 1) : url.getPath())
-					+ ((!urlString.equals("") && urlString.charAt(0) == '/') ? urlString : "/" + urlString);
-		} else {
-			return urlString;
+	public void setMaximumDepth(int maximumDepth) {
+		if (maximumDepth < 1) {
+			throw new IllegalArgumentException("maximumDepth must be >= 1.");
 		}
-
+		this.maximumDepth = maximumDepth;
 	}
 
-	public URLList extractLinks(int level, String url) throws IOException {
-
-		System.out.println("Extracting " + level + " - " + url);
-
-		URLList uRLList = new URLList();
-
-		URL u = new URL(url);
-
-		InputStream ins;
-
-		ins = u.openStream();
-
-		// Traverse the HTML one element at a time.
-
-		while (hr.readUntil(ins, '<', '<')) {
-
-			// Inside an element - may be a closing element - but an element at
-			// least.
-
-			String token = hr.readString(ins, ' ', '>');
-			String element;
-			String attribute;
-			String attributeValue = null;
-
-			if (token != null) {
-				
-				element = token.trim();
-
-				if (element.equals("a")) {
-
-					token = hr.readString(ins, '=', '>');
-
-					while (token != null) {
-						
-						attribute = token.replace(" ", "").replace("=", "");
-						
-						if (attribute.equals("href")) {
-							
-							char nextChar = hr.skipSpace(ins, '>');
-							
-							if (nextChar == '"') {
-								// Looks like the element value is enclosed in quotes so
-								// read to the next double quote.
-								// This time there is no need for special terminal
-								// test of '>' as it will be valid inside a quote.
-								token = hr.readString(ins, '"', '"');
-								if (token != null) {
-									attributeValue = token.substring(0,token.length() - 1);
-								}
-								
-							} else {
-
-								// Element value is not quoted 
-								token = hr.readString(ins, ' ', '>');
-								attributeValue = token;
-
-							}
-							
-//							System.out.println("   " + element + "-" + attribute
-	//								+ "-" + attributeValue);
-
-//							uRLList.add(level+1, expandURL(u,attributeValue));
-							uRLList.add(level+1, expandURL2(u,attributeValue));
-							
-
-						}
-
-						token = hr.readString(ins, '=', '>');
-					}
-
-				}
-
-			}
-
-		}
-
-		ins.close();
-
-		for (URLListElement e : uRLList.getUrls()) {
-			System.out.println("   " + e.toString());
-		}
-
-		return uRLList;
-
-	}
 
 	public void crawl(String url) {
 
-		urlsToVisit.add(0, url);
+		LinkExtractor linkExtractor = new LinkExtractor(hTMLReader);
 
-		//
-		// Because we are about to transmogrify urlsToVisit, we can't iterate
-		// over it in the conventional way - lest there is a
-		// java.util.ConcurrentModificationException
-		//
+		uRLList.add(0, url);
 
-		int idx = 0;
+		Iterator<URLListElement> uRLListIterator = uRLList.iterator();
 
-		while (idx < urlsToVisit.getUrls().size()) {
+		while (uRLListIterator.hasNext()) {
+
+			URLListElement uRLListElement = uRLListIterator.next();
 
 			try {
 
-				URLListElement e = urlsToVisit.getUrls().get(idx);
+				if (uRLListElement.getPriority() < maximumDepth) {
 
-				if (e.getPriority() < MAXIMUM_DEPTH) {
+				    System.out.println("Visiting (depth=" + uRLListElement.getPriority() + ") - " + uRLListElement.getUrl());
+					URLList extractedURLs = linkExtractor.extractLinks(uRLListElement.getPriority(), uRLListElement.getUrl());
 
-					URLList extractedURLs = extractLinks(e.getPriority(),
-							e.getUrl());
-					urlsVisited.add(e);
+					Iterator<URLListElement> extractedURLsIterator = extractedURLs.iterator();
 
-					Iterator<URLListElement> innerItr = extractedURLs.getUrls()
-							.iterator();
-
-					while (innerItr.hasNext()) {
-						urlsToVisit.add(innerItr.next());
-					}
+					while (extractedURLsIterator.hasNext()) {
+						URLListElement element = extractedURLsIterator.next();
+					    uRLList.add(element);
+					    System.out.println("   Found " + element.getUrl());
+				    }
 
 				}
-			} catch (IOException e) {
+			} catch (IOException ex) {
 				// Display the error, but continue.
-				e.printStackTrace();
+				ex.printStackTrace();
 			}
-
-			idx++;
 
 		}
 
 	}
-
+	
 }

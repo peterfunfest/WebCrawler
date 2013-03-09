@@ -8,7 +8,7 @@ import model.Temporaryurllist;
 public class DatabaseTest {
 
 	public static void main(String[] args) {
-		DatabaseUtil db = new DatabaseUtil();
+		DatabaseUtil db = DatabaseUtil.getInstance();
 
 		// First Delete all existing records
 		System.out.println("Deleting all records from temporary table");
@@ -23,9 +23,9 @@ public class DatabaseTest {
 		db.insertRecordTemporaryTable("Test URL Temp3", 3);
 
 		// Insert some records into the final table
-		db.insertRecordFinalTable("Test URL Final1");
-		db.insertRecordFinalTable("Test URL Final2");
-		db.insertRecordFinalTable("Test URL Fianl3");
+		db.insertRecordFinalTable("Test URL Final1",1);
+		db.insertRecordFinalTable("Test URL Final2",2);
+		db.insertRecordFinalTable("Test URL Fianl3",3);
 
 		// Now we read back everything from the final URL table
 		System.out.println("Checking SELECT From Final URL Table");
@@ -34,6 +34,7 @@ public class DatabaseTest {
 		for (Finalurllist furl : tempList) {
 			System.out.println("ID: " + furl.getId());
 			System.out.println("URL: " + furl.getUrl());
+			System.out.println("Priority: " + furl.getPriority());
 		}
 		System.out.println("Size: " + tempList.size());
 

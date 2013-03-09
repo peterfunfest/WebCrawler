@@ -1,7 +1,10 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 
 /**
@@ -15,13 +18,14 @@ public class Temporaryurllist implements Serializable {
 	@Id
     //@GeneratedValue(strategy=GenerationType.AUTO)
     //@GeneratedValue(strategy=GenerationType.TABLE)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    //@GeneratedValue(strategy=GenerationType.IDENTITY)
 
 
 	private int id;
 
 	private int priority;
 
+	@Column(length=1000)
 	private String url;
 
 	public Temporaryurllist() {
