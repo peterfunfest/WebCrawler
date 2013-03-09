@@ -10,11 +10,6 @@ import java.io.InputStream;
 
 public class HTMLReaderImpl implements HTMLReader {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see webcrawler.HTMLReader#readUntil(java.io.InputStream, char, char)
-	 */
 	public boolean readUntil(InputStream in, char ch1, char ch2)
 			throws IOException {
 
@@ -23,7 +18,6 @@ public class HTMLReaderImpl implements HTMLReader {
 		if (in == null){
 			return false;
 		}
-		
 		
 		// I think I have fixed the case sensitivity issue but it is still failing the following test case:
 		// ch1 and ch2 are the same; and are present in the input stream. I would expect 
@@ -47,11 +41,6 @@ public class HTMLReaderImpl implements HTMLReader {
 		return (charToCompare == ch1LowerCase);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)
-	 */
 	public char skipSpace(InputStream in, char ch) throws IOException {
 
 		int b;
@@ -64,11 +53,6 @@ public class HTMLReaderImpl implements HTMLReader {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see webcrawler.HTMLReader#readString(java.io.InputStream, char, char)
-	 */
 	public String readString(InputStream in, char ch1, char ch2)
 			throws IOException {
 

@@ -20,31 +20,17 @@ public class LinkExtractor {
 		this.hTMLReader = hTMLReader;
 	}
 
-	/*
-	private String expandURL2(URL url, String urlString) throws MalformedURLException  {
-	// WORKING ON - alternative implementation
-        String result = new URL(url,urlString).toString();
-//		System.out.println("URL:"+url.toString());
-	//	System.out.println("REL:"+urlString);
-		//System.out.println("  =:"+result);
-	    return result;
-	}
-*/
-
 	private String expandURL(URL url, String urlString) {
 
 		if (urlString != null) {
 
 			boolean hasProtocol = false;
-			// String protocol="";
+
 			int protocolEndPosition = urlString.indexOf(":");
 
 			if (protocolEndPosition > 0) {
-				// protocol = urlString.substring(0, protocolEndPosition);
 				hasProtocol = true;
 			}
-
-			// System.out.println("protocol is :" + protocol);
 
 			if (!hasProtocol) {
 				return url.getProtocol()

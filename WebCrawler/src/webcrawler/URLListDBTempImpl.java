@@ -35,9 +35,7 @@ public class URLListDBTempImpl implements URLList {
 
 	@Override
 	public int size() {
-		int rv = db.getTemporaryURLListSize();
-        System.out.println("Size is " + rv);
-		return rv;
+		return saveIdx;
 	}
 
 	@Override
