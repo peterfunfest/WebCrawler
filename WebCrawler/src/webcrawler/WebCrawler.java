@@ -10,7 +10,6 @@ public class WebCrawler {
 	private HTMLReader hTMLReader;
 	private URLList tempURLList;
 	private URLList finalURLList;
-	
 
 	public WebCrawler(HTMLReader hTMLReader, URLList tempURLList, URLList finalURLList) {
 		this.hTMLReader = hTMLReader;
@@ -60,11 +59,11 @@ public class WebCrawler {
 				}
 
 			} catch (IOException ex) {
-				
+
 				// Display the error, but continue.
 				ex.printStackTrace();
 			}
-			
+
 		}
 
 		Iterator<URLListElement> uRLListIterator2 = tempURLList.iterator();

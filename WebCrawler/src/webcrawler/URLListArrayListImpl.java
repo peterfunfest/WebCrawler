@@ -3,9 +3,8 @@ package webcrawler;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Observable;
 
-public class URLListArrayListImpl extends Observable implements URLList {
+public class URLListArrayListImpl implements URLList {
 
     private int idx;
     private int size;
@@ -27,8 +26,6 @@ public class URLListArrayListImpl extends Observable implements URLList {
 	public void add(URLListElement e) {
 		urls.add(e);
 		this.size++;
-		this.setChanged();
-		this.notifyObservers(e);
 	}
 
 	@Override
