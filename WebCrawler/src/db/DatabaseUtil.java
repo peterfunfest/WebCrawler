@@ -24,48 +24,35 @@ public class DatabaseUtil {
        return INSTANCE;	
     }
 
-	private DatabaseUtil(){
+	private DatabaseUtil() {
 		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 		em = factory.createEntityManager();
 	}
 
-	public void insertRecordTemporaryTable(String url, int priority){
 
-//		System.out.println("Trying to create new entity in temporary table");
-		 em.getTransaction().begin(); 
-		 Temporaryurllist todo2 = new Temporaryurllist();
-		 todo2.setUrl(url);
-		 todo2.setPriority(priority);
-		 //todo2.setId('%');
-		 em.persist(todo2);
-		 em.getTransaction().commit();
-		
+	public boolean insertRecordTemporaryTable(int id, String url, int priority) {
+
+		Query q = em.createQuery("select count(1) FROM Temporaryurllist frul where frul.url = :url");
+		q.setParameter("url", url);
+		Long count = (Long)q.getSingleResult();
+
+		if (count==0)  {
+		    //		System.out.println("Trying to create new entity in temporary table");
+		    em.getTransaction().begin();
+		    Temporaryurllist todo2 = new Temporaryurllist();
+		    todo2.setId(id);
+		    todo2.setUrl(url);
+		    todo2.setPriority(priority);
+		    //todo2.setId('%');
+		    em.persist(todo2);		 
+		    em.getTransaction().commit();
+		    return true;
+		} else		{
+			return false;			
+		}
+
 	}
 
-	public void insertRecordTemporaryTable(int id, String url, int priority){
-
-//		System.out.println("Trying to create new entity in temporary table");
-		 em.getTransaction().begin(); 
-		 Temporaryurllist todo2 = new Temporaryurllist();
-		 todo2.setId(id);
-		 todo2.setUrl(url);
-		 todo2.setPriority(priority);
-		 //todo2.setId('%');
-		 em.persist(todo2);
-		 em.getTransaction().commit();
-		
-	}
-	
-	public void insertRecordFinalTable(String url, int priority){
-//		 System.out.println("Trying to create new entity in final table");
-		 em.getTransaction().begin(); 
-		 Finalurllist todo2 = new Finalurllist();
-		 todo2.setUrl(url);
-		 todo2.setPriority(priority);
-		 //todo2.setId('%');
-		 em.persist(todo2);
-		 em.getTransaction().commit();
-	}
 
 	public void insertRecordFinalTable(int id, String url, int priority){
 
@@ -78,7 +65,7 @@ public class DatabaseUtil {
 		 //todo2.setId('%');
 		 em.persist(todo2);
 		 em.getTransaction().commit();
-		
+         
 	}
 
 	public Temporaryurllist getTemporaryURLListById(int id){
@@ -92,17 +79,10 @@ public class DatabaseUtil {
 	public Finalurllist getFinalURLListById(int id){
 		// Get a Finalurllist record by key.
 //		em.getTransaction().begin();
-		Query q = em.createQuery("select frul FROM Temporaryurllist frul where frul.id = " + id);
+		Query q = em.createQuery("select frul FROM Finalurllist frul where frul.id = " + id);
 		Finalurllist finalurlList = (Finalurllist)q.getSingleResult();
 		return finalurlList;
 	}
-
-//	public int getTemporaryURLListSize() {
-//		em.getTransaction().begin();
-//		Query q = em.createQuery("select count(frul) FROM Temporaryurllist frul");
-//		Long result = (Long)q.getSingleResult();
-//		return result.intValue();
-//	}
 	
 	public List<Temporaryurllist> queryTemporaryURLList(){
 		// Read the existing entries and write to console

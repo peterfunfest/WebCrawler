@@ -18,14 +18,15 @@ public class URLListArrayListImpl implements URLList {
 	}
 
 	@Override
-	public void add(int priority, String url) {
-		this.add(new URLListElement(priority, url));
+	public boolean add(int priority, String url) {
+		return this.add(new URLListElement(priority, url));
 	}
 
 	@Override
-	public void add(URLListElement e) {
+	public boolean add(URLListElement e) {
 		urls.add(e);
 		this.size++;
+		return true;
 	}
 
 	@Override

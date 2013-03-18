@@ -18,15 +18,18 @@ public class URLListDBFinalImpl implements URLList {
 	}
 
 	@Override
-	public void add(int priority, String url) {
-		this.add(new URLListElement(priority, url));
+	public boolean add(int priority, String url) {
+		return this.add(new URLListElement(priority, url));
 	}
 
 	@Override
-	public void add(URLListElement e) {
+	public boolean add(URLListElement e) {
 		if (uRLFilter.search(e.getUrl())) {
 			db.insertRecordFinalTable(saveIdx, e.getUrl(), e.getPriority());
-			saveIdx++;			
+			saveIdx++;
+			return true;
+		} else {
+			return false;
 		}
 	}
 

@@ -18,14 +18,14 @@ public class DatabaseTest {
 		db.deleteAllFromFinalTable();
 
 		// Insert some records into the temp table
-		db.insertRecordTemporaryTable("Test URL Temp1", 1);
-		db.insertRecordTemporaryTable("Test URL Temp2", 2);
-		db.insertRecordTemporaryTable("Test URL Temp3", 3);
+		db.insertRecordTemporaryTable(1,"Test URL Temp1", 1);
+		db.insertRecordTemporaryTable(2,"Test URL Temp2", 2);
+		db.insertRecordTemporaryTable(3,"Test URL Temp3", 3);
 
 		// Insert some records into the final table
-		db.insertRecordFinalTable("Test URL Final1",1);
-		db.insertRecordFinalTable("Test URL Final2",2);
-		db.insertRecordFinalTable("Test URL Fianl3",3);
+		db.insertRecordFinalTable(1,"Test URL Final1",1);
+		db.insertRecordFinalTable(2,"Test URL Final2",2);
+		db.insertRecordFinalTable(3,"Test URL Fianl3",3);
 
 		// Now we read back everything from the final URL table
 		System.out.println("Checking SELECT From Final URL Table");

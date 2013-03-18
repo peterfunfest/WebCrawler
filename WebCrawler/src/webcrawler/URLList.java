@@ -4,9 +4,9 @@ import java.util.Iterator;
 
 public interface URLList {
 
-	public void add(int priority, String url);
+	public boolean add(int priority, String url);
 
-	public void add(URLListElement e);
+	public boolean add(URLListElement e);
 
 	public String toString();
 	

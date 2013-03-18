@@ -25,7 +25,7 @@ public class Temporaryurllist implements Serializable {
 
 	private int priority;
 
-	@Column(length=1000)
+	@Column(length=1000, unique=true)
 	private String url;
 
 	public Temporaryurllist() {

@@ -52,8 +52,11 @@ public class WebCrawler {
 
 					while (extractedURLsIterator.hasNext()) {
 						URLListElement element = extractedURLsIterator.next();
-						tempURLList.add(element);
-					    System.out.println("   Found " + element.getUrl());
+						if (tempURLList.add(element)) {
+						    System.out.println("   Found       " + element.getUrl());							
+						} else {
+						    System.out.println("   Found (DUP) " + element.getUrl());														
+						}
 				    }
 
 				}
