@@ -24,8 +24,10 @@ public class URLListDBTempImpl implements URLList {
 
 	@Override
 	public void add(URLListElement e) {
-		db.insertRecordTemporaryTable(saveIdx, e.getUrl(), e.getPriority());
-		saveIdx++;
+		if (uRLFilter.search(e.getUrl())) {
+		    db.insertRecordTemporaryTable(saveIdx, e.getUrl(), e.getPriority());
+		    saveIdx++;
+		}
 	}
 
 	@Override
