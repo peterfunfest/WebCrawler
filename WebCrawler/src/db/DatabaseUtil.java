@@ -143,15 +143,17 @@ public class DatabaseUtil {
 		//Query q = em.createQuery("delete FROM Temporaryurllist frul");
 		//int deletedCount = q.executeUpdate();
 		em.getTransaction().begin();
-		int deletedCount = em.createQuery("delete FROM Temporaryurllist frul").executeUpdate();
-		System.out.println("Deleted " + deletedCount + " rows");
+//		int deletedCount = 
+		em.createQuery("delete FROM Temporaryurllist frul").executeUpdate();
+//		System.out.println("Deleted " + deletedCount + " rows");
 		//List<Finalurllist> finalURLListList = q.getResultList();
 		em.getTransaction().commit();
 	}
 
 	public void deleteAllFromFinalTable() {
 		em.getTransaction().begin();
-		int deletedCount = em.createQuery("delete FROM Finalurllist frul").executeUpdate();
+//		int deletedCount = 
+		em.createQuery("delete FROM Finalurllist frul").executeUpdate();
 		//List<Finalurllist> finalURLListList = q.getResultList();
 		
 //		System.out.println("Deleted " + deletedCount + " rows");
