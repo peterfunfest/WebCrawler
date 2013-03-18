@@ -21,7 +21,7 @@ public class Launcher {
 
 		WebCrawler wc = new WebCrawler(hTMLReader, tempURLList, finalURLList);
 
-        // TODO: MORE DI HERE.
+        // TODO: MORE DI HERE -- OR USE COMMAND LINE PARAMETERS.
 		wc.setMaximumDepth(3);
 		wc.crawl("http://www.dcs.bbk.ac.uk/~keith");
 
