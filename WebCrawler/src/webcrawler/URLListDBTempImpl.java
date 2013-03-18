@@ -10,6 +10,7 @@ public class URLListDBTempImpl implements URLList {
     private int saveIdx=1;
     private int readIdx=1;
 	private DatabaseUtil db;
+	private URLFilter    uRLFilter;
 
 	public URLListDBTempImpl() {
 		this.db = DatabaseUtil.getInstance();
@@ -36,6 +37,16 @@ public class URLListDBTempImpl implements URLList {
 	@Override
 	public int size() {
 		return saveIdx;
+	}
+
+	@Override
+	public URLFilter getuRLFilter() {
+		return uRLFilter;
+	}
+
+	@Override
+	public void setuRLFilter(URLFilter uRLFilter) {
+		this.uRLFilter = uRLFilter;
 	}
 
 	@Override

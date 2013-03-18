@@ -67,6 +67,20 @@ public class DatabaseUtil {
 		 em.getTransaction().commit();
 	}
 
+	public void insertRecordFinalTable(int id, String url, int priority){
+
+//		System.out.println("Trying to create new entity in temporary table");
+		 em.getTransaction().begin(); 
+		 Finalurllist todo2 = new Finalurllist();
+		 todo2.setId(id);
+		 todo2.setUrl(url);
+		 todo2.setPriority(priority);
+		 //todo2.setId('%');
+		 em.persist(todo2);
+		 em.getTransaction().commit();
+		
+	}
+
 	public Temporaryurllist getTemporaryURLListById(int id){
 		// Get a Temporaryurllist record by key.
 //		em.getTransaction().begin();
@@ -75,12 +89,20 @@ public class DatabaseUtil {
 		return temporaryurlList;
 	}
 
-	public int getTemporaryURLListSize() {
-		em.getTransaction().begin();
-		Query q = em.createQuery("select count(frul) FROM Temporaryurllist frul");
-		Long result = (Long)q.getSingleResult();
-		return result.intValue();
+	public Finalurllist getFinalURLListById(int id){
+		// Get a Finalurllist record by key.
+//		em.getTransaction().begin();
+		Query q = em.createQuery("select frul FROM Temporaryurllist frul where frul.id = " + id);
+		Finalurllist finalurlList = (Finalurllist)q.getSingleResult();
+		return finalurlList;
 	}
+
+//	public int getTemporaryURLListSize() {
+//		em.getTransaction().begin();
+//		Query q = em.createQuery("select count(frul) FROM Temporaryurllist frul");
+//		Long result = (Long)q.getSingleResult();
+//		return result.intValue();
+//	}
 	
 	public List<Temporaryurllist> queryTemporaryURLList(){
 		// Read the existing entries and write to console

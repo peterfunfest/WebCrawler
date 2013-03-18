@@ -1,21 +1,20 @@
 package webcrawler;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Observable;
 
-public class URLListArrayListImpl extends Observable implements URLList {
+import model.Finalurllist;
+import db.DatabaseUtil;
 
-    private int idx;
-    private int size;
-	private List<URLListElement> urls;
-	private URLFilter            uRLFilter;
+public class URLListDBFinalImpl implements URLList {
 
-	public URLListArrayListImpl() {
-		this.idx=-1;
-        this.size=0;
-		urls = new ArrayList<URLListElement>();
+    private int saveIdx=1;
+    private int readIdx=1;
+	private DatabaseUtil db;
+	private URLFilter    uRLFilter;
+
+	public URLListDBFinalImpl() {
+		this.db = DatabaseUtil.getInstance();
+		db.deleteAllFromFinalTable();
 	}
 
 	@Override
@@ -25,20 +24,19 @@ public class URLListArrayListImpl extends Observable implements URLList {
 
 	@Override
 	public void add(URLListElement e) {
-		urls.add(e);
-		this.size++;
-		this.setChanged();
-		this.notifyObservers(e);
+		db.insertRecordFinalTable(saveIdx, e.getUrl(), e.getPriority());
+		saveIdx++;
 	}
 
 	@Override
 	public URLListElement get(int idx) {
-		return this.urls.get(idx);
+		Finalurllist t = db.getFinalURLListById(idx);
+		return new URLListElement(t.getPriority(), t.getUrl());
 	}
 
 	@Override
 	public int size() {
-		return this.urls.size();
+		return saveIdx;
 	}
 
 	@Override
@@ -58,13 +56,12 @@ public class URLListArrayListImpl extends Observable implements URLList {
 
 			@Override
 			public boolean hasNext() {
-				return (idx+1 < size);
+				return (readIdx < saveIdx);
 			}
 
 			@Override
 			public URLListElement next() {
-				idx++;
-				return get(idx);
+				return get(readIdx++);
 			}
 
 			@Override
@@ -76,7 +73,7 @@ public class URLListArrayListImpl extends Observable implements URLList {
 
 	@Override
 	public String toString() {
-		return urls.toString();
+		return this.toString();
 	}
 
 }

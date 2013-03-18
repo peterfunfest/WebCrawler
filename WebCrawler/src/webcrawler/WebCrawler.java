@@ -8,12 +8,14 @@ public class WebCrawler {
 	private int maximumDepth;
 
 	private HTMLReader hTMLReader;
+	private URLList tempURLList;
+	private URLList finalURLList;
+	
 
-	private URLList uRLList;
-
-	public WebCrawler(HTMLReader hTMLReader, URLList urlsToVisit) {
+	public WebCrawler(HTMLReader hTMLReader, URLList tempURLList, URLList finalURLList) {
 		this.hTMLReader = hTMLReader;
-		this.uRLList = urlsToVisit;
+		this.tempURLList = tempURLList;
+		this.finalURLList = finalURLList;
 		this.maximumDepth = 1;
 	}
 
@@ -28,14 +30,13 @@ public class WebCrawler {
 		this.maximumDepth = maximumDepth;
 	}
 
-
 	public void crawl(String url) {
 
 		LinkExtractor linkExtractor = new LinkExtractor(hTMLReader);
 
-		uRLList.add(0, url);
+		tempURLList.add(0, url);
 
-		Iterator<URLListElement> uRLListIterator = uRLList.iterator();
+		Iterator<URLListElement> uRLListIterator = tempURLList.iterator();
 
 		while (uRLListIterator.hasNext()) {
 
@@ -52,7 +53,7 @@ public class WebCrawler {
 
 					while (extractedURLsIterator.hasNext()) {
 						URLListElement element = extractedURLsIterator.next();
-					    uRLList.add(element);
+						tempURLList.add(element);
 					    System.out.println("   Found " + element.getUrl());
 				    }
 
@@ -65,5 +66,5 @@ public class WebCrawler {
 		}
 
 	}
-	
+
 }

@@ -14,6 +14,10 @@ public interface URLList {
 
 	public int size();
 	
+	public URLFilter getuRLFilter();
+
+	public void setuRLFilter(URLFilter uRLFilter);
+	
 	public Iterator<URLListElement> iterator();
 	
 }
