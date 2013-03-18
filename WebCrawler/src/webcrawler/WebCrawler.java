@@ -35,7 +35,6 @@ public class WebCrawler {
 		LinkExtractor linkExtractor = new LinkExtractor(hTMLReader);
 
 		tempURLList.add(0, url);
-		finalURLList.add(0, url);
 
 		Iterator<URLListElement> uRLListIterator = tempURLList.iterator();
 
@@ -55,16 +54,23 @@ public class WebCrawler {
 					while (extractedURLsIterator.hasNext()) {
 						URLListElement element = extractedURLsIterator.next();
 						tempURLList.add(element);
-						finalURLList.add(element);
 					    System.out.println("   Found " + element.getUrl());
 				    }
 
 				}
+
 			} catch (IOException ex) {
+				
 				// Display the error, but continue.
 				ex.printStackTrace();
 			}
+			
+		}
 
+		Iterator<URLListElement> uRLListIterator2 = tempURLList.iterator();
+
+		while (uRLListIterator.hasNext()) {
+			finalURLList.add(uRLListIterator2.next());
 		}
 
 	}

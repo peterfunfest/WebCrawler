@@ -52,7 +52,9 @@ public class URLListDBFinalImpl implements URLList {
 	@Override
 	public Iterator<URLListElement> iterator() {
 
-		return new Iterator<URLListElement>() {
+	    readIdx=1;
+
+	    return new Iterator<URLListElement>() {
 
 			@Override
 			public boolean hasNext() {

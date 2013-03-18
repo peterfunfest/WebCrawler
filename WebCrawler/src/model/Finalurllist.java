@@ -20,7 +20,7 @@ public class Finalurllist implements Serializable {
 	@Id
     //@GeneratedValue(strategy=GenerationType.AUTO)
     //@GeneratedValue(strategy=GenerationType.TABLE)
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    //@GeneratedValue(strategy=GenerationType.IDENTITY)
 
 
 	private int id;
