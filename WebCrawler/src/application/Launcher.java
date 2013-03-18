@@ -1,37 +1,29 @@
 package application;
 
 import webcrawler.HTMLReader;
-import webcrawler.HTMLReaderImpl;
-import webcrawler.URLFilterNullImpl;
 import webcrawler.URLList;
-import webcrawler.URLListDBFinalImpl;
-import webcrawler.URLListDBTempImpl;
 import webcrawler.WebCrawler;
+import webcrawler.WebCrawlerConfigurationFactory;
 
 public class Launcher {
 
 	public static void main(String[] args) {
 
-		// TODO - FACTORY HERE!!!!
-        // OR EVEN USE SPRING.
-		// NEARLY ALL OF THE INJECTION CAN TAKE PLACE HERE... !!!!
-		
-		HTMLReader hTMLReader = new HTMLReaderImpl();
+		WebCrawlerConfigurationFactory webCrawlerFactory = WebCrawlerConfigurationFactory.getInstance();
 
-// Either This
-//		URLList    uRLList = new URLListArrayListImpl();
-//		((URLListArrayListImpl)uRLList).addObserver(new URLListArrayListObserver("Observer"));
-// Or This
-		URLList    tempURLList = new URLListDBTempImpl();
-		URLList    finalURLList = new URLListDBFinalImpl();
+		HTMLReader hTMLReader = webCrawlerFactory.getHTMLReader();
 
-		finalURLList.setuRLFilter(new URLFilterNullImpl());
+		URLList tempURLList = webCrawlerFactory.getTempURLList();
+		tempURLList.setuRLFilter(webCrawlerFactory.getTempURLFilter());
+
+		URLList finalURLList = webCrawlerFactory.getFinalURLList();
+		finalURLList.setuRLFilter(webCrawlerFactory.getFinalURLFilter());
 
 		WebCrawler wc = new WebCrawler(hTMLReader, tempURLList, finalURLList);
 
+        // TODO: MORE DI HERE.
 		wc.setMaximumDepth(3);
 		wc.crawl("http://www.dcs.bbk.ac.uk/~keith");
-//		wc.crawl("http://www.bcc.co.uk/news");
 
 	}
 
