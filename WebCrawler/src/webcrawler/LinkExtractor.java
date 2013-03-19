@@ -47,6 +47,7 @@ public class LinkExtractor {
 			}
 
 		} else {
+
 			return urlString;
 
 		}
