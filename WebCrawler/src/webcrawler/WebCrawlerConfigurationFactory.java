@@ -17,7 +17,13 @@ public class WebCrawlerConfigurationFactory {
     private String tempURLFilterClass;
     private String finalURLFilterClass;
 
+    private int    maximumDepth;
+    private int    maximumDistinctURLs;
+    
+    private String startURL;
+    
 	private WebCrawlerConfigurationFactory() {
+
 		props = new Properties();
 		try {
 			props.load(new FileInputStream("webcrawler.properties"));
@@ -26,9 +32,13 @@ public class WebCrawlerConfigurationFactory {
 			tempURLFilterClass = props.getProperty("tempURLFilter");
 			finalURLListClass = props.getProperty("finalURLList");
 			finalURLFilterClass = props.getProperty("finalURLFilter");
-        } catch (Exception ex) {
+            maximumDepth = Integer.valueOf(props.getProperty("maximumDepth")==null?"0":props.getProperty("maximumDepth"));
+            maximumDistinctURLs = Integer.valueOf(props.getProperty("maximumDistinctURLs")==null?"0":props.getProperty("maximumDistinctURLs"));
+            startURL= props.getProperty("startURL");
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+
 	}
 
 	static {
@@ -87,6 +97,18 @@ public class WebCrawlerConfigurationFactory {
 			throw new RuntimeException(e);
 		}
 		return urlFilter; 
+	}
+	
+	public int getMaximumDepth() {
+		return this.maximumDepth; 
+	}
+	
+	public int getMaximumDistinctURLs() {
+		return this.maximumDistinctURLs;
+	}
+	
+	public String getStartURL() {
+		return this.startURL;
 	}
 
 }

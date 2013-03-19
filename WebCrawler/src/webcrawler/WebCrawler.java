@@ -6,6 +6,7 @@ import java.util.Iterator;
 public class WebCrawler {
 
 	private int maximumDepth;
+	private int maximumDistinctURLs;
 
 	private HTMLReader hTMLReader;
 	private URLList tempURLList;
@@ -16,6 +17,7 @@ public class WebCrawler {
 		this.tempURLList = tempURLList;
 		this.finalURLList = finalURLList;
 		this.maximumDepth = 1;
+		this.maximumDistinctURLs = 1;
 	}
 
 	public int getMaximumDepth() {
@@ -29,28 +31,41 @@ public class WebCrawler {
 		this.maximumDepth = maximumDepth;
 	}
 
+	public int getMaximumDistinctURLs() {
+		return maximumDistinctURLs;
+	}
+
+	public void setMaximumDistinctURLs(int maximumDistinctURLs) {
+		if (maximumDistinctURLs < 1) {
+			throw new IllegalArgumentException("maximumDistinctURLs must be >= 1.");
+		}
+		this.maximumDistinctURLs = maximumDistinctURLs;
+	}
+
 	public void crawl(String url) {
 
 		LinkExtractor linkExtractor = new LinkExtractor(hTMLReader);
 
 		tempURLList.add(0, url);
 
-		Iterator<URLListElement> uRLListIterator = tempURLList.iterator();
+	    System.out.println("\n\nCRAWLING: " + url + "\n\n");
 
-		while (uRLListIterator.hasNext()) {
+	    Iterator<URLListElement> tempURLListIterator = tempURLList.iterator();
 
-			URLListElement uRLListElement = uRLListIterator.next();
+		while (tempURLListIterator.hasNext() && tempURLList.size() < getMaximumDistinctURLs()) {
+
+			URLListElement uRLListElement = tempURLListIterator.next();
 
 			try {
 
-				if (uRLListElement.getPriority() < maximumDepth) {
+				if (uRLListElement.getPriority() <=+ maximumDepth) {
 
 				    System.out.println("Visiting (depth=" + uRLListElement.getPriority() + ") - " + uRLListElement.getUrl());
 					URLList extractedURLs = linkExtractor.extractLinks(uRLListElement.getPriority(), uRLListElement.getUrl());
 
 					Iterator<URLListElement> extractedURLsIterator = extractedURLs.iterator();
 
-					while (extractedURLsIterator.hasNext()) {
+					while (extractedURLsIterator.hasNext() && tempURLList.size() < getMaximumDistinctURLs()) {
 						URLListElement element = extractedURLsIterator.next();
 						if (tempURLList.add(element)) {
 						    System.out.println("   Found       " + element.getUrl());							
@@ -69,10 +84,10 @@ public class WebCrawler {
 
 		}
 
-		Iterator<URLListElement> uRLListIterator2 = tempURLList.iterator();
+		Iterator<URLListElement> tempURLListIterator2 = tempURLList.iterator();
 
-		while (uRLListIterator.hasNext()) {
-			finalURLList.add(uRLListIterator2.next());
+		while (tempURLListIterator2.hasNext()) {
+			finalURLList.add(tempURLListIterator.next());
 		}
 
 	}
