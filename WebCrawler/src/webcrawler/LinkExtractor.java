@@ -54,15 +54,15 @@ public class LinkExtractor {
 
 	}
 
-	public URLList extractLinks(int level, String url) throws IOException {
+	public URLList extractLinks(int level, String urlString) throws IOException {
 
 		URLList uRLList = new URLListArrayListImpl();
 
-		URL u = new URL(url);
+		URL url = new URL(urlString);
 
 		InputStream ins;
 
-		ins = u.openStream();
+		ins = url.openStream();
 
 		// Traverse the HTML one element at a time.
 
@@ -110,7 +110,7 @@ public class LinkExtractor {
 
 							}
 							
-							String expandedURL =  expandURL(u,attributeValue);
+							String expandedURL =  expandURL(url,attributeValue);
 							
 							if (expandedURL != null && expandedURL.startsWith("http:")) {
 								uRLList.add(level+1,expandedURL);								
