@@ -41,7 +41,7 @@ public class URLListDBFinalImpl implements URLList {
 
 	@Override
 	public int size() {
-		return saveIdx;
+		return saveIdx-1;
 	}
 
 	@Override

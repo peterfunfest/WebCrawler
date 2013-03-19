@@ -16,7 +16,7 @@ public class WebCrawler {
 		this.hTMLReader = hTMLReader;
 		this.tempURLList = tempURLList;
 		this.finalURLList = finalURLList;
-		this.maximumDepth = 1;
+		this.maximumDepth = 0;
 		this.maximumDistinctURLs = 1;
 	}
 
@@ -25,8 +25,8 @@ public class WebCrawler {
 	}
 
 	public void setMaximumDepth(int maximumDepth) {
-		if (maximumDepth < 1) {
-			throw new IllegalArgumentException("maximumDepth must be >= 1.");
+		if (maximumDepth < 0) {
+			throw new IllegalArgumentException("maximumDepth must be >= 0.");
 		}
 		this.maximumDepth = maximumDepth;
 	}
@@ -58,7 +58,7 @@ public class WebCrawler {
 
 			try {
 
-				if (uRLListElement.getPriority() <=+ maximumDepth) {
+				if (uRLListElement.getPriority() <= maximumDepth) {
 
 				    System.out.println("Visiting (depth=" + uRLListElement.getPriority() + ") - " + uRLListElement.getUrl());
 					URLList extractedURLs = linkExtractor.extractLinks(uRLListElement.getPriority(), uRLListElement.getUrl());
