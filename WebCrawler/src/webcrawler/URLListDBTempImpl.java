@@ -25,7 +25,7 @@ public class URLListDBTempImpl implements URLList {
 	 * records
 	 */
 	public URLListDBTempImpl() {
-		this.db = DatabaseUtil.getInstance();
+		this.db = new DatabaseUtil();
 		db.deleteAllFromTemporaryTable();
 	}
 	

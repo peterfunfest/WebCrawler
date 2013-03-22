@@ -3,7 +3,7 @@ package application;
 import webcrawler.URLFilter;
 
 /**
- * Base implementation of the search method which can be substituted as required
+ * Example implementation of the search method which can be substituted as required
  * through dependency injection, setting an alternative implementation via a
  * configuration file
  * 

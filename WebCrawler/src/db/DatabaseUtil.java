@@ -20,7 +20,7 @@ import model.Temporaryurllist;
  */
 public class DatabaseUtil {
 	
-	private static DatabaseUtil INSTANCE;
+	//private  DatabaseUtil INSTANCE;
 	private static final String PERSISTENCE_UNIT_NAME = "JPATestProject";
 	private static EntityManagerFactory factory;
 	private EntityManager em;
@@ -31,18 +31,19 @@ public class DatabaseUtil {
 	 * 
 	 * @return Instance of DatabaseUtil
 	 */
-	public static DatabaseUtil getInstance() {
+	/*public static DatabaseUtil getInstance() {
+	
 		if (INSTANCE == null) {
 			INSTANCE = new DatabaseUtil();
 		}
 		return INSTANCE;
-	}
+	}*/
 	
 	/**
 	 * Creates EntityManagerFactory for the given persistence unit and creates
 	 * an EntityManager based on this
 	 */
-	private DatabaseUtil() {
+	public DatabaseUtil() {
 		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 		em = factory.createEntityManager();
 	}
@@ -198,6 +199,7 @@ public class DatabaseUtil {
 		// System.out.println("Deleted " + deletedCount + " rows");
 		// List<Finalurllist> finalURLListList = q.getResultList();
 		em.getTransaction().commit();
+		
 	}
 	
 	/**
@@ -211,6 +213,7 @@ public class DatabaseUtil {
 		
 		// System.out.println("Deleted " + deletedCount + " rows");
 		em.getTransaction().commit();
+		
 	}
 	
 	// em.close();

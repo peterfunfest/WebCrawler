@@ -12,7 +12,16 @@ import org.junit.runners.Suite.SuiteClasses;
  * 
  */
 @RunWith(Suite.class)
-@SuiteClasses({ HTMLReaderTest.class, WebCrawlerTest.class })
+@SuiteClasses({ 
+	HTMLReaderTest.class,
+	WebCrawlerTest.class,
+	DatabaseUtilTest.class,
+	URLFilterExampleImplTest.class, 
+	FinalurllistTest.class, 
+	TemporaryurllistTest.class, 
+	URLFilterNullImplTest.class,
+	URLListElementTest.class
+	})
 public class AllTests {
 	
 }

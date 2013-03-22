@@ -6,18 +6,12 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
 import webcrawler.HTMLReader;
 import webcrawler.HTMLReaderImpl;
 
 /**
- * Test case for the HTMLReader class
+ * Test case for the HTMLReaderImpl class access through the HTMLReader interface
  * 
  * @author Peter Hayes
  * @author Iain Ritchie
@@ -29,34 +23,6 @@ public class HTMLReaderTest {
 	private static boolean returnedValue;
 	
 	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-	
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-	
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
-	
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-	
-	/**
 	 * Test method for
 	 * {@link webcrawler.HTMLReader#readUntil(java.io.InputStream, char, char)}.
 	 * Checks the case where ch1 is encountered and ch2 is not, checking for
@@ -64,7 +30,7 @@ public class HTMLReaderTest {
 	 */
 	@Test
 	public void testReadUntilCaseOne() {
-		String testInputString = "<html this is fun - no it isn't />";
+		String testInputString = "<html test>";
 		char ch1 = 'H';
 		char ch2 = 'z';
 		getInputStream(testInputString);
@@ -88,7 +54,7 @@ public class HTMLReaderTest {
 	 */
 	@Test
 	public void testReadUntilCaseEight() {
-		String testInputString = "<html this is fun - no it isn't />";
+		String testInputString = "<html test>";
 		char ch1 = 'h';
 		char ch2 = 'h';
 		getInputStream(testInputString);
@@ -179,7 +145,7 @@ public class HTMLReaderTest {
 	 */
 	@Test
 	public void testReadUntilCaseFour() {
-		String testInputString = "<html this is fun - no it isn't />";
+		String testInputString = "<html test>";
 		char ch1 = 'z';
 		char ch2 = 'z';
 		getInputStream(testInputString);
@@ -201,7 +167,7 @@ public class HTMLReaderTest {
 	 */
 	@Test
 	public void testReadUntilCaseThree() {
-		String testInputString = "<html this is fun - no it isn't />";
+		String testInputString = "<html test>";
 		char ch1 = 'z';
 		char ch2 = 'h';
 		getInputStream(testInputString);
@@ -234,7 +200,7 @@ public class HTMLReaderTest {
 	
 	@Test
 	public void testReadUntilCaseTwo() {
-		String testInputString = "<html this is fun - no it isn't />";
+		String testInputString = "<html test>";
 		char ch1 = 'h';
 		char ch2 = 'z';
 		getInputStream(testInputString);
@@ -259,7 +225,7 @@ public class HTMLReaderTest {
 	@Test
 	public void testSkipSpaceCaseOne() {
 		
-		String testInputString = "<html this is fun - no it isn't />";
+		String testInputString = "<html test>";
 		char ch1 = 'h';
 		char returnedValue = ' ';
 		getInputStream(testInputString);
@@ -285,7 +251,7 @@ public class HTMLReaderTest {
 	@Test
 	public void testSkipSpaceCaseTwo() {
 		
-		String testInputString = " <html this is fun - no it isn't />";
+		String testInputString = " <html test>";
 		char ch1 = 'h';
 		char returnedValue = ' ';
 		getInputStream(testInputString);
@@ -310,7 +276,7 @@ public class HTMLReaderTest {
 	@Test
 	public void testSkipSpaceCaseThree() {
 		
-		String testInputString = "<html this is fun - no it isn't />";
+		String testInputString = "<html test>";
 		char ch1 = '<';
 		char returnedValue = ' ';
 		getInputStream(testInputString);
@@ -335,7 +301,7 @@ public class HTMLReaderTest {
 	@Test
 	public void testSkipSpaceCaseFour() {
 		
-		String testInputString = " <html this is fun - no it isn't />";
+		String testInputString = " <html test>";
 		char ch1 = '<';
 		char returnedValue = ' ';
 		getInputStream(testInputString);
@@ -354,10 +320,9 @@ public class HTMLReaderTest {
 	/**
 	 * Test method for
 	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}. Tests
-	 * for the case where the inputStream supplied is null NOT SURE HOW WE
-	 * HANDLE THIS ONE!
+	 * for the case where the inputStream supplied is null.
 	 */
-	@Test
+	@Test (expected = NullPointerException.class)
 	public void testSkipSpaceCaseFive() {
 		
 		char ch1 = '<';
@@ -378,8 +343,7 @@ public class HTMLReaderTest {
 	/**
 	 * Test method for
 	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}. Tests
-	 * for the case where the InputSteam is an empty string NOT SURE HOW WE
-	 * HANDLE THIS ONE!
+	 * for the case where the InputSteam is an empty string
 	 */
 	@Test
 	public void testSkipSpaceCaseSix() {
@@ -403,8 +367,7 @@ public class HTMLReaderTest {
 	/**
 	 * Test method for
 	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}. Tests
-	 * for the case where the InputSteam contains only white space NOT SURE HOW
-	 * WE HANDLE THIS ONE!
+	 * for the case where the InputSteam contains only white space 
 	 */
 	@Test
 	public void testSkipSpaceCaseSeven() {
@@ -434,7 +397,7 @@ public class HTMLReaderTest {
 	@Test
 	public void testReadStringCaseOne() {
 		
-		String testInputString = "<html this is fun - no it isn't />";
+		String testInputString = "<html test>";
 		char ch1 = 't';
 		char ch2 = 'z';
 		String returnedValue = "";
@@ -458,7 +421,7 @@ public class HTMLReaderTest {
 	@Test
 	public void testReadStringCaseTwo() {
 		
-		String testInputString = "<html this is fun - no it isn't />";
+		String testInputString = "<html test>";
 		char ch1 = 'z';
 		char ch2 = 't';
 		String returnedValue = "";
@@ -479,7 +442,7 @@ public class HTMLReaderTest {
 	 * {@link webcrawler.HTMLReader#readString(java.io.InputStream, char, char)}
 	 * Exception case where the input stream submitted is null
 	 */
-	@Test
+	@Test (expected = NullPointerException.class)
 	public void testReadStringCaseThree() {
 		
 		char ch1 = 'z';
@@ -505,7 +468,7 @@ public class HTMLReaderTest {
 	@Test
 	public void testReadStringCaseFour() {
 		
-		String testInputString = "<html this is fun - no it isn't />";
+		String testInputString = "<html test>";
 		char ch1 = 'z';
 		char ch2 = 'z';
 		String returnedValue = "";
@@ -532,7 +495,7 @@ public class HTMLReaderTest {
 	@Test
 	public void testReadStringCaseFive() {
 		
-		String testInputString = "   <html this is fun - no it isn't />";
+		String testInputString = "   <html test>";
 		char ch1 = 't';
 		char ch2 = 'z';
 		String returnedValue = "";
@@ -558,8 +521,8 @@ public class HTMLReaderTest {
 	@Test
 	public void testReadStringCaseSix() {
 		
-		String testInputString = "<html This is fun - no it isn't />";
-		char ch1 = 'T';
+		String testInputString = "<html test>";
+		char ch1 = 't';
 		char ch2 = 'z';
 		String returnedValue = "";
 		getInputStream(testInputString);
@@ -583,7 +546,7 @@ public class HTMLReaderTest {
 	@Test
 	public void testReadStringCaseSeven() {
 		
-		String testInputString = "<html This is fun - no it isn't />";
+		String testInputString = "<html test>";
 		char ch1 = 'z';
 		char ch2 = 'T';
 		String returnedValue = "";

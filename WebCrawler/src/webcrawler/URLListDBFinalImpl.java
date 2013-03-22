@@ -24,7 +24,7 @@ public class URLListDBFinalImpl implements URLList {
 	 * records
 	 */
 	public URLListDBFinalImpl() {
-		this.db = DatabaseUtil.getInstance();
+		this.db = new DatabaseUtil();
 		db.deleteAllFromFinalTable();
 	}
 	
