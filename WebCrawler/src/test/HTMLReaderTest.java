@@ -248,6 +248,7 @@ public class HTMLReaderTest {
 	 * character is returned. This time the InputStream has whitespace at the
 	 * start
 	 */
+	
 	@Test
 	public void testSkipSpaceCaseTwo() {
 		
