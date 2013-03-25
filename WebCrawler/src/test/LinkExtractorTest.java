@@ -3,65 +3,58 @@
  */
 package test;
 
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
+import java.io.IOException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import webcrawler.HTMLReader;
 import webcrawler.LinkExtractor;
+import webcrawler.URLList;
+import webcrawler.URLListArrayListImpl;
+import webcrawler.WebCrawlerConfigurationFactory;
 
 /**
  * @author IAINLAPTOP
- *
+ * 
  */
 public class LinkExtractorTest {
+	
+	private static HTMLReader hTMLReader;
+	private static WebCrawlerConfigurationFactory webCrawlerConfigurationFactory;
 	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		webCrawlerConfigurationFactory = WebCrawlerConfigurationFactory
+				.getInstance();
+		
+		hTMLReader = webCrawlerConfigurationFactory.getHTMLReader();
 	}
 	
 	/**
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-	
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
-	
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-	
-	/**
-	 * Test method for {@link webcrawler.LinkExtractor#LinkExtractor(webcrawler.HTMLReader)}.
-	 */
-	@Test
-	public void testLinkExtractor() {
-		fail("Not yet implemented"); // TODO
-	}
-	
-	/**
-	 * Test method for {@link webcrawler.LinkExtractor#extractLinks(int, java.lang.String)}.
+	 * Test method for
+	 * {@link webcrawler.LinkExtractor#extractLinks(int, java.lang.String)}.
 	 */
 	@Test
 	public void testExtractLinks() {
-		fail("Not yet implemented"); // TODO
+		
+		LinkExtractor linkExtractor = new LinkExtractor(hTMLReader);
+		//String testURLString = "http://www.dcs.bbk.ac.uk/~iritch01/oodp/PageA.html";
+		String testURLString = "http://www.dcs.bbk.ac.uk/~iritch01/index.html";
+		
+		
+		URLList uRLList = new URLListArrayListImpl();
+		
+		try {
+			uRLList = linkExtractor.extractLinks(1, testURLString);
+		} catch (IOException e) {
+				e.printStackTrace();
+		}
+		
+		System.out.println("URL = ");
+		System.out.println(uRLList.get(0).getUrl().toString());
+		
 	}
 	
 }

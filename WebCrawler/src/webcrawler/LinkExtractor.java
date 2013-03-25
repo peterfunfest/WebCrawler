@@ -99,6 +99,8 @@ public class LinkExtractor {
 	 */
 	public URLList extractLinks(int level, String urlString) throws IOException {
 		
+		System.out.println("Extract Links Called with url: " + urlString);
+		
 		URLList uRLList = new URLListArrayListImpl();
 		
 		URL url = new URL(urlString);
@@ -164,6 +166,7 @@ public class LinkExtractor {
 							
 							if (expandedURL != null
 									&& expandedURL.startsWith("http:")) {
+								System.out.println("Adding URL " + expandedURL);
 								uRLList.add(level + 1, expandedURL);
 							}
 							
