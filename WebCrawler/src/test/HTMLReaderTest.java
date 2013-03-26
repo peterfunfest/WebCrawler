@@ -361,7 +361,6 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
-//		assertEquals("Wrong value returned", Character.MIN_VALUE, returnedValue);
 		assertEquals("Wrong value returned", (char)-1, returnedValue);
 		
 	}
@@ -386,7 +385,6 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
-//		assertEquals("Wrong value returned", Character.MIN_VALUE, returnedValue);
 		assertEquals("Wrong value returned", (char)-1, returnedValue);
 	
 	}
@@ -475,6 +473,7 @@ public class HTMLReaderTest {
 		char ch1 = 'z';
 		char ch2 = 'z';
 		String returnedValue = "";
+		String expectedValue = "<html test>";
 		getInputStream(testInputString);
 		HTMLReader htmlReader = new HTMLReaderImpl();
 		
@@ -484,10 +483,11 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
+		System.out.println("Test Read String Case Four Expected Value: " + expectedValue);
+		System.out.println("Test Read String Case Four Returned Value: " + returnedValue);
 //		assertEquals("Wrong value returned",
 	//			"<html this is fun - no it isn't />", returnedValue);
-		assertEquals("Wrong value returned",
-				"<html test>", returnedValue);
+		assertEquals("Wrong value returned", expectedValue, returnedValue);
 	}
 	
 	/**
@@ -539,7 +539,6 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
-//		assertEquals("Wrong value returned", "<html T", returnedValue);
 		assertEquals("Wrong value returned", "<ht", returnedValue);
 	}
 	
@@ -556,6 +555,7 @@ public class HTMLReaderTest {
 		char ch1 = 'z';
 		char ch2 = 'T';
 		String returnedValue = "";
+		String expectedValue = "<html test>";
 		getInputStream(testInputString);
 		HTMLReader htmlReader = new HTMLReaderImpl();
 		
@@ -564,9 +564,11 @@ public class HTMLReaderTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Test Read String Case Seven Expected Value: " + expectedValue);
+		System.out.println("Test Read String Case Seven Returned Value: " + returnedValue);
 		
 //		assertEquals("Wrong value returned", null, returnedValue);
-		assertEquals("Wrong value returned", "<html test>", returnedValue);
+		assertEquals("Wrong value returned", expectedValue, returnedValue);
 	}
 	
 }
