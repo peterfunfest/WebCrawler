@@ -361,7 +361,8 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
-		assertEquals("Wrong value returned", Character.MIN_VALUE, returnedValue);
+//		assertEquals("Wrong value returned", Character.MIN_VALUE, returnedValue);
+		assertEquals("Wrong value returned", (char)-1, returnedValue);
 		
 	}
 	
@@ -385,8 +386,9 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
-		assertEquals("Wrong value returned", Character.MIN_VALUE, returnedValue);
-		
+//		assertEquals("Wrong value returned", Character.MIN_VALUE, returnedValue);
+		assertEquals("Wrong value returned", (char)-1, returnedValue);
+	
 	}
 	
 	/**
@@ -482,8 +484,10 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
+//		assertEquals("Wrong value returned",
+	//			"<html this is fun - no it isn't />", returnedValue);
 		assertEquals("Wrong value returned",
-				"<html this is fun - no it isn't />", returnedValue);
+				"<html test>", returnedValue);
 	}
 	
 	/**
@@ -535,7 +539,8 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
-		assertEquals("Wrong value returned", "<html T", returnedValue);
+//		assertEquals("Wrong value returned", "<html T", returnedValue);
+		assertEquals("Wrong value returned", "<ht", returnedValue);
 	}
 	
 	/**
@@ -560,7 +565,8 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
-		assertEquals("Wrong value returned", null, returnedValue);
+//		assertEquals("Wrong value returned", null, returnedValue);
+		assertEquals("Wrong value returned", "<html test>", returnedValue);
 	}
 	
 }
