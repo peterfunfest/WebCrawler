@@ -57,8 +57,22 @@ public class LinkExtractor {
 	private String expandURL(URL url, String urlString)
 			throws MalformedURLException {
 
+		String rv = urlString;
+		
 		if (urlString != null) {
 
+			int protocolPtr = urlString.indexOf(':');
+		
+			String protocol = null;
+		
+			if (protocolPtr != -1) {
+				protocol = urlString.substring(0, protocolPtr);			
+			}
+		
+			if (protocol != null && !protocol.equals("http")) {
+				return urlString;
+			}
+		
 			try {
 
 				while (urlString.startsWith("/")) {
@@ -69,30 +83,30 @@ public class LinkExtractor {
 
 				if (baseRef.lastIndexOf('.') > baseRef.lastIndexOf('/')) {
 					// last part of url is a file reference
-					// url = new URL(baseRef);
+					rv = new URL(url, urlString).toString();
 				} else {
 					// last part of url is a path reference so check it ends
 					// with a '/' character.
 					if ((baseRef.lastIndexOf("/") + 1) < baseRef.length()) {
 						url = new URL(baseRef + "/");
+						rv = new URL(url, urlString).toString();
+					} else {
+						rv = new URL(url, urlString).toString();
 					}
 				}
 
-				return (new URL(url, urlString).toString());
+				return (rv);
 
 			} catch (Exception e) {
 
-				// throw new RuntimeException("baseref:" + url.toString() +
-				// ", url:" + urlString);
-				System.out.println("ERROR: baseref:" + url.toString()
-						+ ", url:" + urlString);
+				System.out.println("ERROR: baseref:" + url.toString() + ", url:" + urlString);
 				e.printStackTrace();
 
 			}
 
 		}
 
-		return urlString;
+		return rv;
 	}
 
 	/**
@@ -106,8 +120,6 @@ public class LinkExtractor {
 	 * @throws IOException
 	 */
 	public URLList extractLinks(int level, String urlString) throws IOException {
-
-		// System.out.println("Extract Links Called with url: " + urlString);
 
 		URLList uRLList = new URLListArrayListImpl();
 
@@ -143,8 +155,7 @@ public class LinkExtractor {
 
 						if (attribute.equals("href")) {
 
-							char nextChar = this.gethTMLReader().skipSpace(ins,
-									'>');
+							char nextChar = this.gethTMLReader().skipSpace(ins,'>');
 
 							if (nextChar == '"') {
 								// Looks like the element value is enclosed in
@@ -157,8 +168,7 @@ public class LinkExtractor {
 								token = this.gethTMLReader().readString(ins,
 										'"', '"');
 								if (token != null) {
-									attributeValue = token.substring(0,
-											token.length() - 1);
+									attributeValue = token.substring(0,token.length() - 1);
 								}
 
 							} else {
@@ -171,14 +181,8 @@ public class LinkExtractor {
 							}
 
 							String expandedURL = expandURL(url, attributeValue);
-							// System.out.println("expandURL result="
-							// +expandedURL+ ", baseRef: " + url.toString() +
-							// " url: " + attributeValue);
 
-							if (expandedURL != null
-									&& expandedURL.startsWith("http:")) {
-								// System.out.println("Adding URL " +
-								// expandedURL);
+							if (expandedURL != null && expandedURL.startsWith("http:")) {
 								uRLList.add(level + 1, expandedURL);
 							}
 
