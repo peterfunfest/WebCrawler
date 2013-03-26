@@ -2,6 +2,7 @@ package webcrawler;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -12,9 +13,9 @@ import java.net.URL;
  */
 
 public class LinkExtractor {
-	
+
 	private HTMLReader hTMLReader;
-	
+
 	/**
 	 * Constructor - Set the instance of HTMLReader to be used
 	 * 
@@ -24,7 +25,7 @@ public class LinkExtractor {
 	public LinkExtractor(HTMLReader hTMLReader) {
 		this.sethTMLReader(hTMLReader);
 	}
-	
+
 	/**
 	 * Gets the instance of HTMLReader currently being used
 	 * 
@@ -33,7 +34,7 @@ public class LinkExtractor {
 	private HTMLReader gethTMLReader() {
 		return hTMLReader;
 	}
-	
+
 	/**
 	 * Sets the instance of HTMLReader to be used
 	 * 
@@ -43,7 +44,7 @@ public class LinkExtractor {
 	private void sethTMLReader(HTMLReader hTMLReader) {
 		this.hTMLReader = hTMLReader;
 	}
-	
+
 	/**
 	 * Expands the URL
 	 * 
@@ -53,40 +54,47 @@ public class LinkExtractor {
 	 *            The string representation of the URL to expand
 	 * @return The expanded URL
 	 */
-	private String expandURL(URL url, String urlString) {
-		
+	private String expandURL(URL url, String urlString)
+			throws MalformedURLException {
+
 		if (urlString != null) {
-			
-			boolean hasProtocol = false;
-			
-			int protocolEndPosition = urlString.indexOf(":");
-			
-			if (protocolEndPosition > 0) {
-				hasProtocol = true;
+
+			try {
+
+				while (urlString.startsWith("/")) {
+					urlString = urlString.substring(1);
+				}
+
+				String baseRef = url.toString();
+
+				if (baseRef.lastIndexOf('.') > baseRef.lastIndexOf('/')) {
+					// last part of url is a file reference
+					// url = new URL(baseRef);
+				} else {
+					// last part of url is a path reference so check it ends
+					// with a '/' character.
+					if ((baseRef.lastIndexOf("/") + 1) < baseRef.length()) {
+						url = new URL(baseRef + "/");
+					}
+				}
+
+				return (new URL(url, urlString).toString());
+
+			} catch (Exception e) {
+
+				// throw new RuntimeException("baseref:" + url.toString() +
+				// ", url:" + urlString);
+				System.out.println("ERROR: baseref:" + url.toString()
+						+ ", url:" + urlString);
+				e.printStackTrace();
+
 			}
-			
-			if (!hasProtocol) {
-				return url.getProtocol()
-						+ "://"
-						+ url.getHost()
-						+ ((url.getPort() == -1) ? "" : url.getPort())
-						+ ((url.getPath().endsWith("/")) ? url.getPath()
-								.substring(0, url.getPath().length() - 1) : url
-								.getPath())
-						+ ((!urlString.equals("") && urlString.charAt(0) == '/') ? urlString
-								: "/" + urlString);
-			} else {
-				return urlString;
-			}
-			
-		} else {
-			
-			return urlString;
-			
+
 		}
-		
+
+		return urlString;
 	}
-	
+
 	/**
 	 * Extract the links for a URL
 	 * 
@@ -98,46 +106,46 @@ public class LinkExtractor {
 	 * @throws IOException
 	 */
 	public URLList extractLinks(int level, String urlString) throws IOException {
-		
-		System.out.println("Extract Links Called with url: " + urlString);
-		
+
+		// System.out.println("Extract Links Called with url: " + urlString);
+
 		URLList uRLList = new URLListArrayListImpl();
-		
+
 		URL url = new URL(urlString);
-		
+
 		InputStream ins;
-		
+
 		ins = url.openStream();
-		
+
 		// Traverse the HTML one element at a time.
-		
+
 		while (this.gethTMLReader().readUntil(ins, '<', '<')) {
-			
+
 			// Inside an element - may be a closing element - but an element at
 			// least.
-			
+
 			String token = this.gethTMLReader().readString(ins, ' ', '>');
 			String element;
 			String attribute;
 			String attributeValue = null;
-			
+
 			if (token != null) {
-				
+
 				element = token.trim();
-				
+
 				if (element.equals("a")) {
-					
+
 					token = this.gethTMLReader().readString(ins, '=', '>');
-					
+
 					while (token != null) {
-						
+
 						attribute = token.replace(" ", "").replace("=", "");
-						
+
 						if (attribute.equals("href")) {
-							
+
 							char nextChar = this.gethTMLReader().skipSpace(ins,
 									'>');
-							
+
 							if (nextChar == '"') {
 								// Looks like the element value is enclosed in
 								// quotes so
@@ -152,39 +160,43 @@ public class LinkExtractor {
 									attributeValue = token.substring(0,
 											token.length() - 1);
 								}
-								
+
 							} else {
-								
+
 								// Element value is not quoted
 								token = this.gethTMLReader().readString(ins,
 										' ', '>');
 								attributeValue = token;
-								
+
 							}
-							
+
 							String expandedURL = expandURL(url, attributeValue);
-							
+							// System.out.println("expandURL result="
+							// +expandedURL+ ", baseRef: " + url.toString() +
+							// " url: " + attributeValue);
+
 							if (expandedURL != null
 									&& expandedURL.startsWith("http:")) {
-								System.out.println("Adding URL " + expandedURL);
+								// System.out.println("Adding URL " +
+								// expandedURL);
 								uRLList.add(level + 1, expandedURL);
 							}
-							
+
 						}
-						
+
 						token = this.gethTMLReader().readString(ins, '=', '>');
 					}
-					
+
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		ins.close();
-		
+
 		return uRLList;
-		
+
 	}
-	
+
 }
