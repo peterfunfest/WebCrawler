@@ -50,7 +50,7 @@ public class HTMLReaderImpl implements HTMLReader {
 		
 		do {
 			b = in.read();
-		} while (b >= 0 && b != ch && Character.isWhitespace(ch));
+		} while (b >= 0 && Character.isWhitespace(b));
 		
 		return (b == ch ? Character.MIN_VALUE : (char) b);
 		

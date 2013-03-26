@@ -264,7 +264,7 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
-		assertEquals("Wrong value returned", "<", returnedValue);
+		assertEquals("Wrong value returned", '<', returnedValue);
 		
 	}
 	
