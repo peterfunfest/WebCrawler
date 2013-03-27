@@ -69,7 +69,9 @@ public class HTMLReaderImpl implements HTMLReader {
 		
 		do {
 			b = in.read();
-			sb.append((char) b);
+			if (b >= 0) {
+				sb.append((char) b);
+			}
 		} while (b >= 0 && b != ch1 && b != ch2);
 		
 		return ((b == ch1 || b == -1) ? sb.toString() : null);

@@ -40,6 +40,13 @@ public class WebCrawler {
 	}
 	
 	/**
+	 * Empty constructors 
+	 */
+	public WebCrawler(){
+		
+	}
+	
+	/**
 	 * Get the maximum depth of the crawler
 	 * 
 	 * @return The maximum depth of the crawler

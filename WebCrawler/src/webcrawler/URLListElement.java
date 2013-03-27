@@ -12,6 +12,30 @@ public class URLListElement {
 	private int priority;
 	private String url;
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof URLListElement)) {
+			throw new IllegalArgumentException();
+		}
+		return (url.equals(((URLListElement) obj).getUrl()) && priority == (((URLListElement)obj).getPriority()));
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return url.hashCode();
+		
+	}
+	
 	/**
 	 * Constructor - Sets priority and url of the element
 	 * 

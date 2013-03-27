@@ -56,7 +56,6 @@ public class LinkExtractorTest {
 		expectedList.add("http://www.dcs.bbk.ac.uk/~iritch01/oodp/PageA.html");
 		expectedList.add("http://www.dcs.bbk.ac.uk/~iritch01/oodp/PageB.html");
 		expectedList.add("http://www.dcs.bbk.ac.uk/~iritch01/oodp/PageC.html");
-		expectedList.add("http://www.dcs.bbk.ac.uk/~iritch01/oodp/PageD.html");
 		expectedList.add("http://www.dcs.bbk.ac.uk/~iritch01/contact.html");
 		
 		
