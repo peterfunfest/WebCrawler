@@ -82,7 +82,6 @@ public class DatabaseUtil {
 		todo2.setId(id);
 		todo2.setUrl(url);
 		todo2.setPriority(priority);
-		// todo2.setId('%');
 		em.persist(todo2);
 		em.getTransaction().commit();
 		

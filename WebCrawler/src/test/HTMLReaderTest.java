@@ -11,7 +11,8 @@ import webcrawler.HTMLReader;
 import webcrawler.HTMLReaderImpl;
 
 /**
- * Test case for the HTMLReaderImpl class access through the HTMLReader interface
+ * Test case for the HTMLReaderImpl class access through the HTMLReader
+ * interface
  * 
  * @author Peter Hayes
  * @author Iain Ritchie
@@ -323,7 +324,7 @@ public class HTMLReaderTest {
 	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}. Tests
 	 * for the case where the inputStream supplied is null.
 	 */
-	@Test (expected = NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void testSkipSpaceCaseFive() {
 		
 		char ch1 = '<';
@@ -361,14 +362,14 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
-		assertEquals("Wrong value returned", (char)-1, returnedValue);
+		assertEquals("Wrong value returned", (char) -1, returnedValue);
 		
 	}
 	
 	/**
 	 * Test method for
 	 * {@link webcrawler.HTMLReader#skipSpace(java.io.InputStream, char)}. Tests
-	 * for the case where the InputSteam contains only white space 
+	 * for the case where the InputSteam contains only white space
 	 */
 	@Test
 	public void testSkipSpaceCaseSeven() {
@@ -385,8 +386,8 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
-		assertEquals("Wrong value returned", (char)-1, returnedValue);
-	
+		assertEquals("Wrong value returned", (char) -1, returnedValue);
+		
 	}
 	
 	/**
@@ -443,7 +444,7 @@ public class HTMLReaderTest {
 	 * {@link webcrawler.HTMLReader#readString(java.io.InputStream, char, char)}
 	 * Exception case where the input stream submitted is null
 	 */
-	@Test (expected = NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void testReadStringCaseThree() {
 		
 		char ch1 = 'z';
@@ -483,10 +484,10 @@ public class HTMLReaderTest {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Test Read String Case Four Expected Value: " + expectedValue);
-		System.out.println("Test Read String Case Four Returned Value: " + returnedValue);
-//		assertEquals("Wrong value returned",
-	//			"<html this is fun - no it isn't />", returnedValue);
+		System.out.println("Test Read String Case Four Expected Value: "
+				+ expectedValue);
+		System.out.println("Test Read String Case Four Returned Value: "
+				+ returnedValue);
 		assertEquals("Wrong value returned", expectedValue, returnedValue);
 	}
 	
@@ -564,10 +565,10 @@ public class HTMLReaderTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Test Read String Case Seven Expected Value: " + expectedValue);
-		System.out.println("Test Read String Case Seven Returned Value: " + returnedValue);
-		
-//		assertEquals("Wrong value returned", null, returnedValue);
+		System.out.println("Test Read String Case Seven Expected Value: "
+				+ expectedValue);
+		System.out.println("Test Read String Case Seven Returned Value: "
+				+ returnedValue);
 		assertEquals("Wrong value returned", expectedValue, returnedValue);
 	}
 	

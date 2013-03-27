@@ -20,7 +20,8 @@ public class URLFilterNullImplTest {
 	
 	/**
 	 * Test method for
-	 * {@link webcrawler.URLFilterNullImpl#search(java.lang.String)}.
+	 * {@link webcrawler.URLFilterNullImpl#search(java.lang.String)}. Ensures
+	 * that all URLs passed through this search method return as true.
 	 */
 	@Test
 	public void testSearch() {

@@ -3,7 +3,7 @@
  */
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
@@ -11,9 +11,7 @@ import model.Finalurllist;
 import model.Temporaryurllist;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import db.DatabaseUtil;
@@ -29,6 +27,7 @@ public class DatabaseUtilTest {
 	
 	/**
 	 * Clean up the database after executing test
+	 * 
 	 * @throws java.lang.Exception
 	 */
 	@Before
@@ -40,6 +39,7 @@ public class DatabaseUtilTest {
 	
 	/**
 	 * Clean up the database after executing test
+	 * 
 	 * @throws java.lang.Exception
 	 */
 	@After
@@ -49,11 +49,9 @@ public class DatabaseUtilTest {
 		databaseUtil.deleteAllFromFinalTable();
 	}
 	
-
 	/**
 	 * Test method for
 	 * {@link db.DatabaseUtil#insertRecordTemporaryTable(int, java.lang.String, int)}
-	 * 
 	 * . Tests the insertion of records in the temporary URL table.
 	 */
 	@Test
@@ -98,7 +96,9 @@ public class DatabaseUtilTest {
 	}
 	
 	/**
-	 * Test method for {@link db.DatabaseUtil#getTemporaryURLListById(int)}. Tests for the retrieval of records in the temporary URL table based on a supplied ID.
+	 * Test method for {@link db.DatabaseUtil#getTemporaryURLListById(int)}.
+	 * Tests for the retrieval of records in the temporary URL table based on a
+	 * supplied ID.
 	 */
 	@Test
 	public void testGetTemporaryURLListById() {
@@ -117,9 +117,10 @@ public class DatabaseUtilTest {
 		assertEquals("Wrong Value Returned", 2, url2.getPriority());
 	}
 	
-	
 	/**
-	 * Test method for {@link db.DatabaseUtil#getFinalURLListById(int)}. Tests for the retrieval of records in the final URL table based on a supplied ID.
+	 * Test method for {@link db.DatabaseUtil#getFinalURLListById(int)}. Tests
+	 * for the retrieval of records in the final URL table based on a supplied
+	 * ID.
 	 */
 	@Test
 	public void testGetFinalURLListById() {
@@ -139,7 +140,8 @@ public class DatabaseUtilTest {
 	}
 	
 	/**
-	 * Test method for {@link db.DatabaseUtil#queryTemporaryURLList()}. Tests for the retrieval of all record from the temporary URL table.
+	 * Test method for {@link db.DatabaseUtil#queryTemporaryURLList()}. Tests
+	 * for the retrieval of all record from the temporary URL table.
 	 */
 	@Test
 	public void testQueryTemporaryURLList() {
@@ -160,7 +162,8 @@ public class DatabaseUtilTest {
 	}
 	
 	/**
-	 * Test method for {@link db.DatabaseUtil#queryFinalURLList()}. Tests for the retrieval of all record from the final URL table.
+	 * Test method for {@link db.DatabaseUtil#queryFinalURLList()}. Tests for
+	 * the retrieval of all record from the final URL table.
 	 */
 	@Test
 	public void testQueryFinalURLList() {
@@ -182,7 +185,8 @@ public class DatabaseUtilTest {
 	}
 	
 	/**
-	 * Test method for {@link db.DatabaseUtil#deleteAllFromTemporaryTable()}. Tests for the deletion of all records from the temporary URL table.
+	 * Test method for {@link db.DatabaseUtil#deleteAllFromTemporaryTable()}.
+	 * Tests for the deletion of all records from the temporary URL table.
 	 */
 	@Test
 	public void testDeleteAllFromTemporaryTable() {
@@ -193,7 +197,8 @@ public class DatabaseUtilTest {
 	}
 	
 	/**
-	 * Test method for {@link db.DatabaseUtil#deleteAllFromFinalTable()}. Tests for the deletion of all records from the final URL table.
+	 * Test method for {@link db.DatabaseUtil#deleteAllFromFinalTable()}. Tests
+	 * for the deletion of all records from the final URL table.
 	 */
 	@Test
 	public void testDeleteAllFromFinalTable() {

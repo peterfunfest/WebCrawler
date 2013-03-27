@@ -13,9 +13,9 @@ import java.net.URL;
  */
 
 public class LinkExtractor {
-
+	
 	private HTMLReader hTMLReader;
-
+	
 	/**
 	 * Constructor - Set the instance of HTMLReader to be used
 	 * 
@@ -25,7 +25,7 @@ public class LinkExtractor {
 	public LinkExtractor(HTMLReader hTMLReader) {
 		this.sethTMLReader(hTMLReader);
 	}
-
+	
 	/**
 	 * Gets the instance of HTMLReader currently being used
 	 * 
@@ -34,7 +34,7 @@ public class LinkExtractor {
 	private HTMLReader gethTMLReader() {
 		return hTMLReader;
 	}
-
+	
 	/**
 	 * Sets the instance of HTMLReader to be used
 	 * 
@@ -44,7 +44,7 @@ public class LinkExtractor {
 	private void sethTMLReader(HTMLReader hTMLReader) {
 		this.hTMLReader = hTMLReader;
 	}
-
+	
 	/**
 	 * Expands the URL
 	 * 
@@ -56,31 +56,31 @@ public class LinkExtractor {
 	 */
 	private String expandURL(URL url, String urlString)
 			throws MalformedURLException {
-
+		
 		String rv = urlString;
 		
 		if (urlString != null) {
-
+			
 			int protocolPtr = urlString.indexOf(':');
-		
+			
 			String protocol = null;
-		
+			
 			if (protocolPtr != -1) {
-				protocol = urlString.substring(0, protocolPtr);			
+				protocol = urlString.substring(0, protocolPtr);
 			}
-		
+			
 			if (protocol != null && !protocol.equals("http")) {
 				return urlString;
 			}
-		
+			
 			try {
-
+				
 				while (urlString.startsWith("/")) {
 					urlString = urlString.substring(1);
 				}
-
+				
 				String baseRef = url.toString();
-
+				
 				if (baseRef.lastIndexOf('.') > baseRef.lastIndexOf('/')) {
 					// last part of url is a file reference
 					rv = new URL(url, urlString).toString();
@@ -94,21 +94,22 @@ public class LinkExtractor {
 						rv = new URL(url, urlString).toString();
 					}
 				}
-
+				
 				return (rv);
-
+				
 			} catch (Exception e) {
-
-				System.out.println("ERROR: baseref:" + url.toString() + ", url:" + urlString);
+				
+				System.out.println("ERROR: baseref:" + url.toString()
+						+ ", url:" + urlString);
 				e.printStackTrace();
-
+				
 			}
-
+			
 		}
-
+		
 		return rv;
 	}
-
+	
 	/**
 	 * Extract the links for a URL
 	 * 
@@ -120,43 +121,44 @@ public class LinkExtractor {
 	 * @throws IOException
 	 */
 	public URLList extractLinks(int level, String urlString) throws IOException {
-
+		
 		URLList uRLList = new URLListArrayListImpl();
-
+		
 		URL url = new URL(urlString);
-
+		
 		InputStream ins;
-
+		
 		ins = url.openStream();
-
+		
 		// Traverse the HTML one element at a time.
-
+		
 		while (this.gethTMLReader().readUntil(ins, '<', '<')) {
-
+			
 			// Inside an element - may be a closing element - but an element at
 			// least.
-
+			
 			String token = this.gethTMLReader().readString(ins, ' ', '>');
 			String element;
 			String attribute;
 			String attributeValue = null;
-
+			
 			if (token != null) {
-
+				
 				element = token.trim();
-
+				
 				if (element.equals("a")) {
-
+					
 					token = this.gethTMLReader().readString(ins, '=', '>');
-
+					
 					while (token != null) {
-
+						
 						attribute = token.replace(" ", "").replace("=", "");
-
+						
 						if (attribute.equals("href")) {
-
-							char nextChar = this.gethTMLReader().skipSpace(ins,'>');
-
+							
+							char nextChar = this.gethTMLReader().skipSpace(ins,
+									'>');
+							
 							if (nextChar == '"') {
 								// Looks like the element value is enclosed in
 								// quotes so
@@ -168,39 +170,41 @@ public class LinkExtractor {
 								token = this.gethTMLReader().readString(ins,
 										'"', '"');
 								if (token != null) {
-									attributeValue = token.substring(0,token.length() - 1);
+									attributeValue = token.substring(0,
+											token.length() - 1);
 								}
-
+								
 							} else {
-
+								
 								// Element value is not quoted
 								token = this.gethTMLReader().readString(ins,
 										' ', '>');
 								attributeValue = token;
-
+								
 							}
-
+							
 							String expandedURL = expandURL(url, attributeValue);
-
-							if (expandedURL != null && expandedURL.startsWith("http:")) {
+							
+							if (expandedURL != null
+									&& expandedURL.startsWith("http:")) {
 								uRLList.add(level + 1, expandedURL);
 							}
-
+							
 						}
-
+						
 						token = this.gethTMLReader().readString(ins, '=', '>');
 					}
-
+					
 				}
-
+				
 			}
-
+			
 		}
-
+		
 		ins.close();
-
+		
 		return uRLList;
-
+		
 	}
-
+	
 }

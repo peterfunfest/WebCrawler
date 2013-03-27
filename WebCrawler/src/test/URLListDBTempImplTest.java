@@ -15,7 +15,6 @@ import application.URLFilterExampleImpl;
 import webcrawler.URLFilter;
 import webcrawler.URLList;
 import webcrawler.URLListArrayListImpl;
-import webcrawler.URLListDBFinalImpl;
 import webcrawler.URLListDBTempImpl;
 import webcrawler.URLListElement;
 

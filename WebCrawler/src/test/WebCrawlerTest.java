@@ -3,31 +3,28 @@
  */
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import model.Finalurllist;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import db.DatabaseUtil;
-
 import webcrawler.HTMLReader;
 import webcrawler.URLList;
-import webcrawler.URLListArrayListImpl;
 import webcrawler.URLListElement;
 import webcrawler.WebCrawler;
 import webcrawler.WebCrawlerConfigurationFactory;
+import db.DatabaseUtil;
 
 /**
- * @author IAINLAPTOP
+ * Test cases for WebCrawler class
+ * 
+ * @author Peter Hayes
+ * @author Iain Ritchie
  * 
  */
 public class WebCrawlerTest {
@@ -64,7 +61,6 @@ public class WebCrawlerTest {
 		
 	}
 	
-	
 	/**
 	 * Test method for {@link webcrawler.WebCrawler#getMaximumDepth()}.
 	 */
@@ -73,8 +69,7 @@ public class WebCrawlerTest {
 		
 		WebCrawler wc = new WebCrawler();
 		wc.setMaximumDepth(5);
-		assertEquals("Wrong value returned", 5,
-				wc.getMaximumDepth());
+		assertEquals("Wrong value returned", 5, wc.getMaximumDepth());
 	}
 	
 	/**
@@ -84,8 +79,7 @@ public class WebCrawlerTest {
 	public void testSetMaximumDepth() {
 		WebCrawler wc = new WebCrawler();
 		wc.setMaximumDepth(5);
-		assertEquals("Wrong value returned", 5,
-				wc.getMaximumDepth());
+		assertEquals("Wrong value returned", 5, wc.getMaximumDepth());
 	}
 	
 	/**
@@ -95,8 +89,7 @@ public class WebCrawlerTest {
 	public void testGetMaximumDistinctURLs() {
 		WebCrawler wc = new WebCrawler();
 		wc.setMaximumDistinctURLs(1000);
-		assertEquals("Wrong value returned", 1000,
-				wc.getMaximumDistinctURLs());
+		assertEquals("Wrong value returned", 1000, wc.getMaximumDistinctURLs());
 	}
 	
 	/**
@@ -107,8 +100,7 @@ public class WebCrawlerTest {
 	public void testSetMaximumDistinctURLs() {
 		WebCrawler wc = new WebCrawler();
 		wc.setMaximumDistinctURLs(1000);
-		assertEquals("Wrong value returned", 1000,
-				wc.getMaximumDistinctURLs());
+		assertEquals("Wrong value returned", 1000, wc.getMaximumDistinctURLs());
 	}
 	
 	/**
@@ -153,16 +145,12 @@ public class WebCrawlerTest {
 		System.out.println("Expected URLs: " + expectedList.toString());
 		System.out.println("Retrieved URLs: " + retrievedList.toString());
 		
-		// Check the expected and retrieved lists are the same size
-		
 		System.out.println("Expected List Size = " + expectedList.size());
 		System.out.println("Comparison List Size = " + retrievedList.size());
 		
 		assertEquals("Wrong value returned", expectedList.size(),
 				retrievedList.size());
 		
-		// Check the contents of the expected list against the retrieved list
-		// Size should stay the same if all of the URLs match
 		int expectedListOriginalSize = expectedList.size();
 		expectedList.retainAll(retrievedList);
 		int expectedListNewSize = expectedList.size();

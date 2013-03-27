@@ -9,7 +9,8 @@ import webcrawler.URLFilter;
 import application.URLFilterExampleImpl;
 
 /**
- * Test cases for the URLFilterExampleImpl class, accessed via the URLFilter interface
+ * Test cases for the URLFilterExampleImpl class, accessed via the URLFilter
+ * interface
  * 
  * @author Peter Hayes
  * @author Iain Ritchie

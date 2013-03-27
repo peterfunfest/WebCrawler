@@ -3,9 +3,9 @@ package application;
 import webcrawler.URLFilter;
 
 /**
- * Example implementation of the search method which can be substituted as required
- * through dependency injection, setting an alternative implementation via a
- * configuration file
+ * Example implementation of the search method which can be substituted as
+ * required through dependency injection, setting an alternative implementation
+ * via a configuration file
  * 
  * @author Peter Hayes
  * @author Iain Ritchie

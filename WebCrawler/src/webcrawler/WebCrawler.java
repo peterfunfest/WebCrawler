@@ -40,9 +40,9 @@ public class WebCrawler {
 	}
 	
 	/**
-	 * Empty constructors 
+	 * Empty constructors
 	 */
-	public WebCrawler(){
+	public WebCrawler() {
 		
 	}
 	
