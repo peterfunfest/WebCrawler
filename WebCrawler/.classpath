@@ -12,5 +12,13 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/derby.jar"/>
+	<classpathentry kind="lib" path="lib/derbyclient.jar"/>
+	<classpathentry kind="lib" path="lib/eclipselink.jar"/>
+	<classpathentry kind="lib" path="lib/eclipselink-jpa-modelgen_2.4.1.v20121003-ad44345.jar"/>
+	<classpathentry kind="lib" path="lib/javax.persistence_1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/javax.persistence_2.0.4.v201112161009.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.persistence.jpars_2.4.1.v20121003-ad44345.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.persistence.jpars.source_2.4.1.v20121003-ad44345.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
